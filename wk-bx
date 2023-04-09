@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import argparse
+import subprocess
+import toml
+import tempfile
+
+DEFAULT_SCCACHE_SCHEDULER='https://sccache.igalia.com'
+
+CONTAINER_PATH="localhost/"
+IMAGE_NAME="wk-dev-f"
+CONTAINER_VERSION=38
+
+def run(*args, in_container=None, dry_run=False, capture_output=True):
+    if in_container:
+        cmdline = f'toolbox run -c {in_container}'.split() + list(args)
+    else:
+        cmdline = args
+    print("Running '%s'" % " ".join(cmdline))
+    if dry_run:
+        return
+    proc = subprocess.run(cmdline, capture_output=capture_output, text=True)
+    if proc.returncode != 0:
+        raise Exception(proc.returncode)
+    if capture_output:
+        return proc.stdout.strip()
+
+def fetch_sccache_credentials(namespace):
+    sccache_credentials = {'scheduler-url': namespace.sccache_scheduler}
+    common_args = ['--format', '{{.Names}}']
+    running_containers = run('podman', 'ps', *common_args).splitlines()
+    all_containers = run('podman', 'container', 'list', *common_args).splitlines()
+    in_container = namespace.name
+    if in_container in running_containers+all_containers:
+        try:
+            sccache_conf = run('cat', '/sccache/sccache.toml', in_container=in_container)
+        except:
+            print('No sccache config found, not re-using previous credentials')
+        else:
+            config = toml.loads(sccache_conf)
+            sccache_credentials['auth-token'] = config['dist']['auth']['token']
+            sccache_credentials['scheduler-url'] = config['dist']['scheduler_url']
+    return sccache_credentials
+
+def update(namespace):
+    sccache_credentials = fetch_sccache_credentials(namespace)
+    if namespace.sccache_token:
+        sccache_credentials['auth-token'] = namespace.sccache_token
+    try:
+        run('podman', 'stop', namespace.name)
+    except:
+        pass
+    run('toolbox', 'rm', namespace.name)
+    run('toolbox', 'create', '-c', namespace.name, '--image', f'{namespace.image}wk-dev:f{namespace.version}', capture_output=False)
+    if sccache_credentials.get('auth-token'):
+        template = run('cat', '/sccache/sccache.toml.in', in_container=namespace.name)
+        with tempfile.NamedTemporaryFile() as tmpfile:
+            tmpfile.write(template.replace('@@scheduler_url@@', sccache_credentials['scheduler-url'])\
+                          .replace('@@auth_token@@', sccache_credentials['auth-token'])\
+                          .encode('utf-8'))
+            tmpfile.flush()
+            run('cp', tmpfile.name, '/sccache/sccache.toml', in_container=namespace.name)
+    else:
+        print('sccache auth token not provided. sccache configuration was skipped')
+
+def main(args):
+    parser = argparse.ArgumentParser(prog="wk-bx", add_help=True)
+    general = parser.add_argument_group("General")
+    general.add_argument("-n", "--name", dest="name", default=f"{IMAGE_NAME}{CONTAINER_VERSION}",
+                         help=f"Toolbox name (default: {IMAGE_NAME}{CONTAINER_VERSION})")
+    general.add_argument("-v", "--version", dest="version", default=CONTAINER_VERSION,
+                         help=f"Container version (default: {CONTAINER_VERSION})")
+    general.add_argument("-i", "--image", dest="image", default=CONTAINER_PATH,
+                         help=f"Container image path (default: {CONTAINER_PATH})")
+    general.add_argument("-u", "--update", dest="update", action="store_true", help="Update the thing")
+
+    distributed_build_options = parser.add_argument_group("Distributed building")
+    distributed_build_options.add_argument("-t", "--sccache-token", dest="sccache_token",
+                                           help="sccache authentication token")
+    distributed_build_options.add_argument("-s", "--sccache-scheduler", dest="sccache_scheduler",
+                                           default=DEFAULT_SCCACHE_SCHEDULER,
+                                           help=f"sccache scheduler URL (default: {DEFAULT_SCCACHE_SCHEDULER})")
+    namespace = parser.parse_args(args=args)
+
+    if namespace.update:
+        update(namespace)
+
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv[1:]))

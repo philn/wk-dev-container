@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+import os
+import sys
+import subprocess
+
+WEBKIT_HOME = os.environ['WEBKIT_HOME']
+
+from webkit_cli import parse_known_args
+
+def main(argv):
+    options, args = parse_known_args(argv)
+
+    webkit_outputdir = os.path.join(WEBKIT_HOME, 'WebKitBuild', options.platform.upper(), options.configuration)
+    args = ['clangd', f"--compile-commands-dir={webkit_outputdir}"] + args[1:]
+    return subprocess.call(args)
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

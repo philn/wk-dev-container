@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+import os
+import sys
+import subprocess
+
+WEBKIT_HOME = os.environ['WEBKIT_HOME']
+
+from webkit_cli import parse_known_args, runtime_environment
+
+def main(argv):
+    options, args = parse_known_args(argv)
+
+    env = runtime_environment()
+
+    base_outputdir = env.get('WEBKIT_OUTPUTDIR', os.path.join(WEBKIT_HOME, 'WebKitBuild'))
+    env['WEBKIT_OUTPUTDIR'] = os.path.join(base_outputdir, options.platform.upper(), options.configuration)
+
+    target = os.path.basename(argv[0])
+    argv[0] = os.path.join(WEBKIT_HOME, 'Tools', 'Scripts', target)
+    if not os.path.isfile(argv[0]):
+        argv[0] = os.path.join('/usr/local/bin', target)
+
+    if target == 'run-webkit-tests':
+        env['TZ'] = 'America/Los_Angeles'
+
+    return subprocess.call(argv, env=env)
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

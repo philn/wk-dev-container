@@ -1,0 +1,5 @@
+#!/bin/sh
+
+exec build-webkit-ng \
+     --cmakeargs='-DDEVELOPER_MODE_FATAL_WARNINGS=OFF' \
+     $@
