@@ -50,25 +50,24 @@ RUN wget $RUSTUP_URL && \
 
 RUN cargo install sccache@0.3.0
 
-ARG GST_PLUGINS_RS_VERSION=0.9.0
 ARG GST_PLUGINS_DIR="/usr/lib64/gstreamer-1.0"
-RUN wget https://static.crates.io/crates/gst-plugin-rtp/gst-plugin-rtp-$GST_PLUGINS_RS_VERSION.crate && \
-    tar xf gst-plugin-rtp-$GST_PLUGINS_RS_VERSION.crate && \
-    cargo build --release --manifest-path=gst-plugin-rtp-$GST_PLUGINS_RS_VERSION/Cargo.toml && \
-    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-rtp-$GST_PLUGINS_RS_VERSION/target/release/libgst*.so && \
-    rm -fr gst-plugin-rtp-$GST_PLUGINS_RS_VERSION
+RUN wget https://static.crates.io/crates/gst-plugin-rtp/gst-plugin-rtp-0.10.6.crate && \
+    tar xf gst-plugin-rtp-0.10.6.crate && \
+    cargo build --release --manifest-path=gst-plugin-rtp-0.10.6/Cargo.toml && \
+    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-rtp-0.10.6/target/release/libgst*.so && \
+    rm -fr gst-plugin-rtp-0.10.6
 
-RUN wget https://static.crates.io/crates/gst-plugin-closedcaption/gst-plugin-closedcaption-$GST_PLUGINS_RS_VERSION.crate && \
-    tar xf gst-plugin-closedcaption-$GST_PLUGINS_RS_VERSION.crate && \
-    cargo build --release --manifest-path=gst-plugin-closedcaption-$GST_PLUGINS_RS_VERSION/Cargo.toml && \
-    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-closedcaption-$GST_PLUGINS_RS_VERSION/target/release/libgst*.so && \
-    rm -fr gst-plugin-closedcaption-$GST_PLUGINS_RS_VERSION
+RUN wget https://static.crates.io/crates/gst-plugin-closedcaption/gst-plugin-closedcaption-0.10.6.crate && \
+    tar xf gst-plugin-closedcaption-0.10.6.crate && \
+    cargo build --release --manifest-path=gst-plugin-closedcaption-0.10.6/Cargo.toml && \
+    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-closedcaption-0.10.6/target/release/libgst*.so && \
+    rm -fr gst-plugin-closedcaption-0.10.6
 
-RUN wget https://static.crates.io/crates/gst-plugin-dav1d/gst-plugin-dav1d-$GST_PLUGINS_RS_VERSION.crate && \
-    tar xf gst-plugin-dav1d-$GST_PLUGINS_RS_VERSION.crate && \
-    cargo build --release --manifest-path=gst-plugin-dav1d-$GST_PLUGINS_RS_VERSION/Cargo.toml && \
-    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-dav1d-$GST_PLUGINS_RS_VERSION/target/release/libgst*.so && \
-    rm -fr gst-plugin-dav1d-$GST_PLUGINS_RS_VERSION
+RUN wget https://static.crates.io/crates/gst-plugin-dav1d/gst-plugin-dav1d-0.10.0.crate && \
+    tar xf gst-plugin-dav1d-0.10.0.crate && \
+    cargo build --release --manifest-path=gst-plugin-dav1d-0.10.0/Cargo.toml && \
+    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-dav1d-0.10.0/target/release/libgst*.so && \
+    rm -fr gst-plugin-dav1d-0.10.0
 
 RUN git clone https://github.com/webkitgtk/webkitgtk-test-fonts && \
     make -C webkitgtk-test-fonts DESTDIR=/usr/share install && \
