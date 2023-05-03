@@ -30,6 +30,13 @@ RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
     meson install -C _build && \
     rm -fr _build sparkle-cdm
 
+# https://github.com/containers/bubblewrap/pull/402
+RUN git clone -b pr/402 https://github.com/philn/bubblewrap && \
+    meson setup --prefix=/usr _build bubblewrap && \
+    meson compile -C _build && \
+    meson install -C _build && \
+    rm -fr _build bubblewrap
+
 ARG RUSTUP_VERSION=1.25.1
 ARG RUST_VERSION=1.68.0
 ARG RUST_ARCH="x86_64-unknown-linux-gnu"
