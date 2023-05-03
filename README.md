@@ -14,3 +14,16 @@ If you prefer to build it yourself:
 $ podman build -t wk-dev:f38 .
 $ ./wk-bx -u
 ```
+
+# Usage
+
+`b-webkit` and `run-minibrowser` are scripts provided by the container.
+`WEBKIT_HOME` should point to your WebKit checkout. Can be set in a `.envrc` there for instance.
+
+```sh
+toolbox enter -c wk-dev-f38
+export WEBKIT_HOME=$HOME/WebKit
+cd $WEBKIT_HOME
+b-webkit --wpe
+run-minibrowser --wpe
+```
