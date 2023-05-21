@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+import sys
+import subprocess
+from webkit_cli import runtime_environment
+
+def main():
+    env = runtime_environment()
+    return subprocess.call([env.get('SHELL', '/bin/bash'),], env=env)
+
+if __name__ == '__main__':
+    sys.exit(main())
