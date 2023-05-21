@@ -3,6 +3,7 @@ import os
 import sys
 import argparse
 import subprocess
+import shlex
 
 WEBKIT_HOME = os.environ['WEBKIT_HOME']
 
@@ -54,7 +55,7 @@ def runtime_environment():
 
     env = os.environ.copy()
     for line in [line for line in local_env.splitlines() if not line.startswith("export")]:
-        tokens = line.split("=")
+        tokens = shlex.split(line)[0].split("=")
         var_name, contents = tokens[0], "=".join(tokens[1:])
         if var_name not in env:
             env[var_name] = contents
