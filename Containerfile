@@ -62,10 +62,6 @@ RUN wget https://static.crates.io/crates/gst-plugin-dav1d/gst-plugin-dav1d-0.10.
     install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-dav1d-0.10.0/target/release/libgst*.so && \
     rm -fr gst-plugin-dav1d-0.10.0
 
-RUN git clone https://github.com/webkitgtk/webkitgtk-test-fonts && \
-    make -C webkitgtk-test-fonts DESTDIR=/usr/share install && \
-    rm -fr webkitgtk-test-fonts
-
 RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
     make -C webkitgtk-test-dicts DESTDIR=/usr/share install && \
     rm -fr webkitgtk-test-dicts
