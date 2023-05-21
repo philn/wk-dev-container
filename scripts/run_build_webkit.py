@@ -123,7 +123,8 @@ class Builder:
             if maxCPULoad is not None and maxCPULoad > 0:
                 self._options.makeargs.append("-l%d" % maxCPULoad)
 
-        if 'WEBKIT_USE_SCCACHE' in os.environ.keys():
+        sccache_enabled = 'WEBKIT_USE_SCCACHE' in os.environ.keys()
+        if sccache_enabled:
             sccache_env = os.environ.copy()
             sccache_env.update({"SCCACHE_START_SERVER": "1"})
             self.execute(["sccache"], env=sccache_env)
@@ -131,7 +132,11 @@ class Builder:
         if 'WEBKIT_SDK_LOCAL_DEPS' in os.environ.keys():
             self._buildLocalDeps()
 
-        return self._buildCMakeProject()
+        try:
+            return self._buildCMakeProject()
+        finally:
+            if sccache_enabled:
+                self.execute(["sccache", "--stop-server"])
 
     def _buildLocalDeps(self):
         src_dir = os.path.join(SOURCE_DIRECTORY, 'Tools', 'flatpak', 'local-projects')
