@@ -20,6 +20,7 @@ gstreamer1-plugin-libav
 gstreamer1-plugins-bad-free
 gstreamer1-plugins-bad-free-devel
 gstreamer1-plugins-bad-free-extras
+gstreamer1-plugins-bad-freeworld
 gstreamer1-plugins-base
 gstreamer1-plugins-base-devel
 gstreamer1-plugins-good
@@ -55,6 +56,7 @@ libsrtp-devel
 libtasn1-devel
 libuuid-devel
 libv4l-devel
+libva-intel-driver
 libvorbis-devel
 libvpx-devel
 libwebp-devel
