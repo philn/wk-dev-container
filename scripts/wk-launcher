@@ -5,10 +5,11 @@ import subprocess
 
 WEBKIT_HOME = os.environ['WEBKIT_HOME']
 
-from webkit_cli import parse_known_args, runtime_environment
+from webkit_cli import OptionParser, runtime_environment
 
 def main(argv):
-    options, args = parse_known_args(argv)
+    parser = OptionParser()
+    options, args = parser.parse_known_args(argv)
 
     env = runtime_environment()
 

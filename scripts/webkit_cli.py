@@ -10,33 +10,36 @@ SCRIPTS_DIRECTORY = os.path.join(WEBKIT_HOME, 'Tools', 'Scripts')
 sys.path.insert(0, SCRIPTS_DIRECTORY)
 from webkitpy.port import configuration_options, platform_options
 
-def parse_known_args(argv, extra_groups=[]):
-    option_parser = argparse.ArgumentParser(usage="%(prog)s [options]", add_help=False)
-    groups = [("Platform options", platform_options()), ("Configuration options", configuration_options())] + extra_groups
+class OptionParser:
+    def __init__(self, extra_groups=[]):
+        self.option_parser = argparse.ArgumentParser(usage="%(prog)s [options]", add_help=False)
+        groups = [("Platform options", platform_options()), ("Configuration options", configuration_options())] + extra_groups
 
-    # Convert options to argparse, so that we can use parse_known_args() which is not supported in optparse.
-    # FIXME: Globally migrate to argparse. https://bugs.webkit.org/show_bug.cgi?id=213463
-    for group_name, group_options in groups:
-        option_group = option_parser.add_argument_group(group_name)
+        # Convert options to argparse, so that we can use parse_known_args() which is not supported in optparse.
+        # FIXME: Globally migrate to argparse. https://bugs.webkit.org/show_bug.cgi?id=213463
+        for group_name, group_options in groups:
+            option_group = self.option_parser.add_argument_group(group_name)
 
-        for option in group_options:
-            # Skip deprecated option
-            if option.get_opt_string() != "--target":
-                default = None
-                if option.default != ("NO", "DEFAULT"):
-                    default = option.default
+            for option in group_options:
+                # Skip deprecated option
+                if option.get_opt_string() != "--target":
+                    default = None
+                    if option.default != ("NO", "DEFAULT"):
+                        default = option.default
 
-                kw = dict(action=option.action, dest=option.dest,help=option.help,default=default)
-                if option.action != "store_true":
-                    kw['const'] = option.const
-                option_group.add_argument(option.get_opt_string(), **kw)
+                    kw = dict(action=option.action, dest=option.dest, help=option.help, default=default)
+                    if option.action != "store_true":
+                        kw['const'] = option.const
+                    option_group.add_argument(option.get_opt_string(), **kw)
 
-    options, args = option_parser.parse_known_args(argv)
+    def parse_known_args(self, argv):
+        options, args = self.option_parser.parse_known_args(argv)
+        if not options.configuration:
+            options.configuration = "Release"
+        return options, args
 
-    if not options.configuration:
-        options.configuration = "Release"
-
-    return options, args
+    def print_help(self):
+        self.option_parser.print_help()
 
 def runtime_environment():
     if not os.environ.get('WEBKIT_SDK_LOCAL_DEPS'):

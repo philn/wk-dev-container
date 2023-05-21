@@ -32,7 +32,7 @@ sys.path.insert(0, os.path.join(SOURCE_DIRECTORY, 'Tools', 'Scripts'))
 from webkitpy.common.system.executive import Executive
 from webkitcorepy.string_utils import elapsed
 
-from webkit_cli import parse_known_args, runtime_environment
+from webkit_cli import OptionParser, runtime_environment
 
 _log = logging.getLogger(__name__)
 
@@ -51,11 +51,11 @@ def main(argv):
         optparse.make_option("--verbose", action="store_true", default=False,
                              help=("Enable verbose output"))
     ])]
-
-    options, args = parse_known_args(argv, groups)
+    parser = OptionParser(extra_groups=groups)
+    options, args = parser.parse_known_args(argv)
 
     if set(args).issubset(["-h", "--help"]) and not options.platform:
-        option_parser.print_help()
+        parser.print_help()
         print("\nTo see the available options on a specific platform, supply it on the command-line, for example --gtk --help")
         return 0
 
