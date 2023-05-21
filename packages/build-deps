@@ -1,6 +1,7 @@
 at-spi2-atk-devel
 atk-devel
 bison
+bubblewrap
 cairo-devel
 cairo-gobject-devel
 clang
@@ -34,7 +35,6 @@ libXt-devel
 libatomic
 libavcodec-freeworld
 libavif-devel
-libcap-devel
 libdav1d-devel
 libepoxy-devel
 liberation-fonts
