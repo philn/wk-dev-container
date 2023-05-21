@@ -206,8 +206,8 @@ class Builder:
         return mapping.get(self._options.platform, "")
 
     def _baseProductDir(self):
-        baseProductDir = os.environ.get("WEBKIT_OUTPUTDIR", SOURCE_DIRECTORY)
-        return os.path.join(baseProductDir, "WebKitBuild", self._cmakePortName())
+        baseProductDir = os.environ.get("WEBKIT_OUTPUTDIR", os.path.join(SOURCE_DIRECTORY, 'WebKitBuild'))
+        return os.path.join(baseProductDir, self._cmakePortName())
 
     def _buildDir(self):
         return os.path.join(self._baseProductDir(), self._options.configuration)
