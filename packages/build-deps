@@ -7,6 +7,7 @@ cairo-gobject-devel
 clang
 cmake
 enchant-devel
+ffmpeg-devel
 flex
 flite-devel
 g++
@@ -33,6 +34,7 @@ intltool
 json-glib-devel
 lcms2-devel
 libXt-devel
+libaom-devel
 libatomic
 libavcodec-freeworld
 libavif-devel
@@ -54,6 +56,7 @@ libsoup3-devel
 libsqlite3x-devel
 libsrtp-devel
 libtasn1-devel
+libtheora-devel
 libuuid-devel
 libv4l-devel
 libva-intel-driver
@@ -80,6 +83,7 @@ perl-JSON-PP
 perl-Time-HiRes
 perl-autouse
 perl-version
+pulseaudio-libs-devel
 python3-gobject
 qt5-qtbase-devel
 qt5-qtbase-private-devel
@@ -90,6 +94,7 @@ rubygem-json
 rubygem-webrick
 sqlite-devel
 systemd-devel
+svt-av1-devel
 unifdef
 wayland-devel
 wayland-protocols-devel
