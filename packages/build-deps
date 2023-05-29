@@ -49,6 +49,7 @@ libjxl-devel
 libkate-devel
 libmanette-devel
 libmount-devel
+libnice-gstreamer1
 libpng-devel
 libseccomp-devel
 libsecret-devel
