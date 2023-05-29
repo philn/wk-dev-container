@@ -1,6 +1,7 @@
 apitrace
 apitrace-gui
 clang-tools-extra
+cpulimit
 curl
 direnv
 fish
