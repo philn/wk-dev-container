@@ -12,6 +12,7 @@ gstreamer1-plugins-base-tools
 heaptrack
 httpd
 libva-utils
+lldb
 luajit-devel
 lzip
 mod_ssl
