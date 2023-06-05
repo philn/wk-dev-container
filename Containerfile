@@ -13,6 +13,7 @@ RUN dnf install -y \
 
 COPY packages/ /packages/
 RUN dnf -y install $(<packages/build-deps)
+RUN dnf -y install $(<packages/multimedia-deps)
 RUN dnf -y install $(<packages/tools)
 
 RUN dnf -y remove mesa-va-drivers
