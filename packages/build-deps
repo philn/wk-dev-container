@@ -27,6 +27,7 @@ gstreamer1-plugins-good
 gstreamer1-plugins-good-extras
 gstreamer1-plugins-ugly
 gstreamer1-plugins-ugly-free
+gstreamer1-svt-av1
 gtk3-devel
 gtk4-devel
 hyphen-devel
@@ -84,6 +85,7 @@ perl-JSON-PP
 perl-Time-HiRes
 perl-autouse
 perl-version
+pipewire-gstreamer
 pulseaudio-libs-devel
 python3-gobject
 qt5-qtbase-devel
@@ -94,8 +96,8 @@ rubygem-highline
 rubygem-json
 rubygem-webrick
 sqlite-devel
-systemd-devel
 svt-av1-devel
+systemd-devel
 unifdef
 wayland-devel
 wayland-protocols-devel
