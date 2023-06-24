@@ -80,7 +80,7 @@ RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
     rm -fr _build sparkle-cdm
 
 ARG RUSTUP_VERSION=1.25.1
-ARG RUST_VERSION=1.68.0
+ARG RUST_VERSION=1.70.0
 ARG RUST_ARCH="x86_64-unknown-linux-gnu"
 ARG RUSTUP_URL=https://static.rust-lang.org/rustup/archive/$RUSTUP_VERSION/$RUST_ARCH/rustup-init
 RUN wget $RUSTUP_URL && \
@@ -93,17 +93,17 @@ RUN wget $RUSTUP_URL && \
 RUN cargo install sccache@0.5.4
 
 ARG GST_PLUGINS_DIR="/usr/lib64/gstreamer-1.0"
-RUN wget https://static.crates.io/crates/gst-plugin-rtp/gst-plugin-rtp-0.10.6.crate && \
-    tar xf gst-plugin-rtp-0.10.6.crate && \
-    cargo build --release --manifest-path=gst-plugin-rtp-0.10.6/Cargo.toml && \
-    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-rtp-0.10.6/target/release/libgst*.so && \
-    rm -fr gst-plugin-rtp-0.10.6
+RUN wget https://static.crates.io/crates/gst-plugin-rtp/gst-plugin-rtp-0.10.9.crate && \
+    tar xf gst-plugin-rtp-0.10.9.crate && \
+    cargo build --release --manifest-path=gst-plugin-rtp-0.10.9/Cargo.toml && \
+    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-rtp-0.10.9/target/release/libgst*.so && \
+    rm -fr gst-plugin-rtp-0.10.9
 
-RUN wget https://static.crates.io/crates/gst-plugin-closedcaption/gst-plugin-closedcaption-0.10.6.crate && \
-    tar xf gst-plugin-closedcaption-0.10.6.crate && \
-    cargo build --release --manifest-path=gst-plugin-closedcaption-0.10.6/Cargo.toml && \
-    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-closedcaption-0.10.6/target/release/libgst*.so && \
-    rm -fr gst-plugin-closedcaption-0.10.6
+RUN wget https://static.crates.io/crates/gst-plugin-closedcaption/gst-plugin-closedcaption-0.10.9.crate && \
+    tar xf gst-plugin-closedcaption-0.10.9.crate && \
+    cargo build --release --manifest-path=gst-plugin-closedcaption-0.10.9/Cargo.toml && \
+    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-closedcaption-0.10.9/target/release/libgst*.so && \
+    rm -fr gst-plugin-closedcaption-0.10.9
 
 RUN wget https://static.crates.io/crates/gst-plugin-dav1d/gst-plugin-dav1d-0.10.0.crate && \
     tar xf gst-plugin-dav1d-0.10.0.crate && \
