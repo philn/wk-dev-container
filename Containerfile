@@ -19,6 +19,53 @@ RUN dnf -y install $(<packages/tools)
 RUN dnf -y remove mesa-va-drivers
 RUN dnf -y install mesa-va-drivers-freeworld
 
+RUN dnf -y builddep gstreamer1-plugins-bad-free
+
+RUN git clone -b 1.22 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
+    meson setup --prefix=/usr \
+       -Damfcodec=disabled \
+       -Davtp=disabled \
+       -Ddc1394=disabled \
+       -Ddirectfb=disabled \
+       -Ddirectshow=disabled \
+       -Ddoc=disabled \
+       -Ddts=disabled \
+       -Ddvbsuboverlay=disabled \
+       -Ddvdspu=disabled \
+       -Dfaac=disabled \
+       -Dfaad=disabled \
+       -Dflite=disabled \
+       -Dgpl=enabled \
+       -Dgs=disabled \
+       -Diqa=disabled \
+       -Dlibde265=disabled \
+       -Dmagicleap=disabled \
+       -Dmpeg2enc=disabled \
+       -Dmplex=disabled \
+       -Dmsdk=disabled \
+       -Dneon=disabled \
+       -Donnx=disabled \
+       -Dopenaptx=disabled \
+       -Dopencv=disabled \
+       -Dopenni2=disabled \
+       -Dopensles=disabled \
+       -Dqsv=disabled \
+       -Drtmp=disabled \
+       -Dsbc=disabled \
+       -Dsiren=disabled \
+       -Dtests=disabled \
+       -Dtinyalsa=disabled \
+       -Dvoaacenc=disabled \
+       -Dwasapi2=disabled \
+       -Dwasapi=disabled \
+       -Dwpe=disabled \
+       -Dx11=disabled \
+       -Dzxing=disabled \
+     _build gstreamer/subprojects/gst-plugins-bad && \
+    meson compile -C _build && \
+    meson install -C _build && \
+    rm -fr _build gstreamer
+
 RUN wget https://github.com/rr-debugger/rr/releases/download/5.6.0/rr-5.6.0-Linux-$(uname -m).rpm && \
     dnf -y install rr-5.6.0-Linux-$(uname -m).rpm && \
     rm -f rr-5.6.0-Linux-$(uname -m).rpm
