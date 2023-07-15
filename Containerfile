@@ -89,7 +89,7 @@ RUN wget $RUSTUP_URL && \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME && \
     source "$CARGO_HOME/env"
 
-RUN cargo install sccache@0.3.0
+RUN cargo install sccache@0.5.4
 
 ARG GST_PLUGINS_DIR="/usr/lib64/gstreamer-1.0"
 RUN wget https://static.crates.io/crates/gst-plugin-rtp/gst-plugin-rtp-0.10.6.crate && \
