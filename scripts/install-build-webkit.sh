@@ -5,6 +5,7 @@ PY_DEST="/usr/local/lib/python${PY_VERSION}/site-packages"
 
 BIN_DEST=/usr/local/bin
 
+mkdir -p $PY_DEST
 mv /scripts/*.py $PY_DEST
 
 mv /scripts/b-webkit $BIN_DEST
