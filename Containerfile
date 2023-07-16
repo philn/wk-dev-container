@@ -6,6 +6,8 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     DEBUGINFOD_URLS=https://debuginfod.fedoraproject.org \
     QT_QPA_PLATFORM=wayland
 
+ENV WEBKIT_ENABLE_DEBUG_PERMISSIONS_IN_SANDBOX=1
+
 # Add rpm fusion repositories in order to access all of the gst plugins
 RUN dnf install -y \
     "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
