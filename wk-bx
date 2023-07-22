@@ -18,7 +18,7 @@ def run(*args, in_container=None, dry_run=False, capture_output=True):
         cmdline = f'toolbox run -c {in_container}'.split() + list(args)
     else:
         cmdline = args
-    print("Running '%s'" % " ".join(cmdline))
+    print("Running %s" % " ".join(cmdline))
     if dry_run:
         return
     proc = subprocess.run(cmdline, capture_output=capture_output, text=True)
