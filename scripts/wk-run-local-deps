@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. /etc/webkit/common-local.sh
+
+. $WEBKIT_HOME/local-runtime-options.sh
+
+run-minibrowser $ARGS $EXTRA_MB_ARGS "$@"

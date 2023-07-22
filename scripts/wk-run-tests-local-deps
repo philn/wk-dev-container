@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. /etc/webkit/common-local.sh
+
+. $WEBKIT_HOME/local-test-options.sh
+
+run-webkit-tests $ARGS "$@"

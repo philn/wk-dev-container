@@ -1,9 +1,17 @@
 #!/bin/sh
 
-mv /scripts/webkit-clangd /usr/local/bin/
-mv /scripts/wk-launcher /usr/local/bin/
-mv /scripts/wk-shell /usr/local/bin/
-ln -s /usr/local/bin/wk-launcher /usr/local/bin/run-minibrowser
-ln -s /usr/local/bin/wk-launcher /usr/local/bin/run-webkit-tests
-ln -s /usr/local/bin/wk-launcher /usr/local/bin/test-webkitpy
-ln -s /usr/local/bin/wk-launcher /usr/local/bin/test-webkitperl
+DEST_BIN=/usr/local/bin
+
+mv /scripts/webkit-clangd $DEST_BIN
+mv /scripts/wk-launcher $DEST_BIN
+mv /scripts/wk-shell $DEST_BIN
+ln -s /usr/local/bin/wk-launcher $DEST_BIN/run-minibrowser
+ln -s /usr/local/bin/wk-launcher $DEST_BIN/run-webkit-tests
+ln -s /usr/local/bin/wk-launcher $DEST_BIN/test-webkitpy
+ln -s /usr/local/bin/wk-launcher $DEST_BIN/test-webkitperl
+
+mkdir -p /etc/webkit
+mv /scripts/common-local.sh /etc/webkit/
+mv /scripts/wk-build-local-deps $DEST_BIN
+mv /scripts/wk-run-local-deps $DEST_BIN
+mv /scripts/wk-run-tests-local-deps $DEST_BIN
