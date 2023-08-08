@@ -46,6 +46,7 @@ libxslt-devel
 make
 mesa-libGL-devel
 mesa-libgbm-devel
+mold
 ninja-build
 openjpeg2-devel
 openssl-devel
