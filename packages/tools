@@ -13,6 +13,7 @@ heaptrack
 httpd
 libva-utils
 lldb
+llvm
 luajit-devel
 lzip
 mod_ssl
