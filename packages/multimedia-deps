@@ -19,6 +19,7 @@ libv4l-devel
 libva-intel-driver
 libvorbis-devel
 libvpx-devel
+nasm
 opus-devel
 pipewire-gstreamer
 pulseaudio-libs-devel
