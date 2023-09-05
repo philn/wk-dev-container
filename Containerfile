@@ -69,9 +69,11 @@ RUN git clone -b 1.22 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
     meson install -C _build && \
     rm -fr _build gstreamer
 
-RUN wget https://github.com/rr-debugger/rr/releases/download/5.6.0/rr-5.6.0-Linux-$(uname -m).rpm && \
-    dnf -y install rr-5.6.0-Linux-$(uname -m).rpm && \
-    rm -f rr-5.6.0-Linux-$(uname -m).rpm
+RUN git clone https://github.com/rr-debugger/rr && \
+    dnf -y install capnproto{,-devel} && \
+    cmake -GNinja -B rr-build -S rr -DCMAKE_INSTALL_PREFIX=/usr -Ddisable32bit=ON -DBUILD_TESTS=OFF && \
+    ninja -C rr-build install && \
+    rm -fr rr-build rr
 
 RUN pip3 install meson
 
