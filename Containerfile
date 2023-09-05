@@ -96,30 +96,15 @@ RUN wget $RUSTUP_URL && \
 
 RUN cargo install sccache@0.5.4
 
-ARG GST_PLUGINS_DIR="/usr/lib64/gstreamer-1.0"
-RUN wget https://static.crates.io/crates/gst-plugin-rtp/gst-plugin-rtp-0.11.0.crate && \
-    tar xf gst-plugin-rtp-0.11.0.crate && \
-    cargo build --release --manifest-path=gst-plugin-rtp-0.11.0/Cargo.toml && \
-    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-rtp-0.11.0/target/release/libgst*.so && \
-    rm -fr gst-plugin-rtp-0.11.0
-
-RUN wget https://static.crates.io/crates/gst-plugin-closedcaption/gst-plugin-closedcaption-0.11.0.crate && \
-    tar xf gst-plugin-closedcaption-0.11.0.crate && \
-    cargo build --release --manifest-path=gst-plugin-closedcaption-0.11.0/Cargo.toml && \
-    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-closedcaption-0.11.0/target/release/libgst*.so && \
-    rm -fr gst-plugin-closedcaption-0.11.0
-
-RUN wget https://static.crates.io/crates/gst-plugin-dav1d/gst-plugin-dav1d-0.11.0.crate && \
-    tar xf gst-plugin-dav1d-0.11.0.crate && \
-    cargo build --release --manifest-path=gst-plugin-dav1d-0.11.0/Cargo.toml && \
-    install -D -m a+r -t $GST_PLUGINS_DIR ./gst-plugin-dav1d-0.11.0/target/release/libgst*.so && \
-    rm -fr gst-plugin-dav1d-0.11.0
-
 RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
     make -C webkitgtk-test-dicts DESTDIR=/usr/share install && \
     rm -fr webkitgtk-test-dicts
 
 COPY scripts/ /scripts/
+
+RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.11.0
+RUN /scripts/install-gst-plugins-rs.sh dav1d 0.11.0
+RUN /scripts/install-gst-plugins-rs.sh rtp 0.11.0
 
 RUN /scripts/prepare-sccache.sh
 RUN /scripts/install-build-webkit.sh
