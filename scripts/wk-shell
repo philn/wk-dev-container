@@ -3,9 +3,12 @@ import sys
 import subprocess
 from webkit_cli import runtime_environment
 
-def main():
+def main(args):
     env = runtime_environment()
-    return subprocess.call([env.get('SHELL', '/bin/bash'),], env=env)
+    process_args = [env.get('SHELL', '/bin/bash'),]
+    if args:
+        process_args = args
+    return subprocess.call(process_args, env=env)
 
 if __name__ == '__main__':
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))
