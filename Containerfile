@@ -83,6 +83,12 @@ RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
     meson install -C _build && \
     rm -fr _build sparkle-cdm
 
+RUN git clone https://github.com/ianlancetaylor/libbacktrace && \
+    pushd libbacktrace && \
+    ./configure --prefix=/usr && make && make install && \
+    popd && \
+    rm -fr libbacktrace
+
 ARG RUSTUP_VERSION=1.25.1
 ARG RUST_VERSION=1.70.0
 ARG RUST_ARCH="x86_64-unknown-linux-gnu"
