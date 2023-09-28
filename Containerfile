@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-toolbox:38
+FROM registry.fedoraproject.org/fedora-toolbox:39
 
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \

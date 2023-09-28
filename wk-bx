@@ -4,14 +4,14 @@ import os
 import sys
 import argparse
 import subprocess
-import toml
+import tomllib as toml
 import tempfile
 
 DEFAULT_SCCACHE_SCHEDULER='https://sccache.igalia.com'
 
 CONTAINER_PATH="localhost/"
 IMAGE_NAME="wk-dev-f"
-CONTAINER_VERSION=38
+CONTAINER_VERSION=39
 
 def run(*args, in_container=None, dry_run=False, capture_output=True):
     if in_container:
