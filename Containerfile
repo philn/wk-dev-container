@@ -85,7 +85,7 @@ RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
 
 RUN git clone https://github.com/ianlancetaylor/libbacktrace && \
     pushd libbacktrace && \
-    ./configure --prefix=/usr && make && make install && \
+    ./configure --enable-shared --prefix=/usr && make && make install && \
     popd && \
     rm -fr libbacktrace
 
