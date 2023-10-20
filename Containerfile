@@ -22,6 +22,8 @@ RUN dnf -y install $(<packages/yocto-deps)
 RUN dnf -y remove mesa-va-drivers
 RUN dnf -y install mesa-va-drivers-freeworld
 
+RUN pip install meson
+
 RUN dnf -y builddep gstreamer1-plugins-bad-free
 
 RUN git clone -b 1.22 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
@@ -74,8 +76,6 @@ RUN git clone https://github.com/rr-debugger/rr && \
     cmake -GNinja -B rr-build -S rr -DCMAKE_INSTALL_PREFIX=/usr -Ddisable32bit=ON -DBUILD_TESTS=OFF && \
     ninja -C rr-build install && \
     rm -fr rr-build rr
-
-RUN pip3 install meson
 
 RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
     meson setup --prefix=/usr -Dsample-player=disabled _build sparkle-cdm && \
