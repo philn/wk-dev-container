@@ -99,8 +99,8 @@ RUN git clone https://github.com/ianlancetaylor/libbacktrace && \
     popd && \
     rm -fr libbacktrace
 
-ARG RUSTUP_VERSION=1.25.1
-ARG RUST_VERSION=1.70.0
+ARG RUSTUP_VERSION=1.26.0
+ARG RUST_VERSION=1.73.0
 ARG RUST_ARCH="x86_64-unknown-linux-gnu"
 ARG RUSTUP_URL=https://static.rust-lang.org/rustup/archive/$RUSTUP_VERSION/$RUST_ARCH/rustup-init
 RUN wget $RUSTUP_URL && \
@@ -110,7 +110,7 @@ RUN wget $RUSTUP_URL && \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME && \
     source "$CARGO_HOME/env"
 
-RUN cargo install sccache@0.5.4
+RUN cargo install sccache@0.7.0
 
 RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
     make -C webkitgtk-test-dicts DESTDIR=/usr/share install && \
