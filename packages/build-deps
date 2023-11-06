@@ -75,4 +75,5 @@ wayland-devel
 wayland-protocols-devel
 woff2-devel
 wpebackend-fdo-devel
+xcb-util-cursor-devel
 xdg-dbus-proxy
