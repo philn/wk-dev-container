@@ -110,8 +110,6 @@ RUN wget $RUSTUP_URL && \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME && \
     source "$CARGO_HOME/env"
 
-RUN cargo install sccache@0.7.0
-
 RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
     make -C webkitgtk-test-dicts DESTDIR=/usr/share install && \
     rm -fr webkitgtk-test-dicts
@@ -122,9 +120,10 @@ RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.11.0
 RUN /scripts/install-gst-plugins-rs.sh dav1d 0.11.0
 RUN /scripts/install-gst-plugins-rs.sh rtp 0.11.0
 
+RUN cargo install sccache@0.7.1
 RUN /scripts/prepare-sccache.sh
-RUN /scripts/install-build-webkit.sh
 
+RUN /scripts/install-build-webkit.sh
 RUN /scripts/install-launchers.sh
 
 RUN dnf clean all
