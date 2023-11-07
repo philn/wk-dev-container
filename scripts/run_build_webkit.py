@@ -78,7 +78,8 @@ def run(options, args, logging_stream):
     _log.debug("Build completed, Exit status: %d" % exitCode)
     if exitCode == 0:
         resultStr = "is now built! 🎉"
-        extra = "\nTo run MiniBrowser with this newly-built code, use\nTools/Scripts/run-minibrowser --%s" % options.platform
+        is_debug = "--debug" if options.configuration == "Debug" else ""
+        extra = f"\nTo run MiniBrowser with this newly-built code, use\nTools/Scripts/run-minibrowser --{options.platform} {is_debug}"
     else:
         resultStr = "build failed. 😟"
         extra = ""
