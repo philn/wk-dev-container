@@ -25,6 +25,7 @@ import subprocess
 import sys
 import time
 import traceback
+import tomllib as toml
 
 SOURCE_DIRECTORY = os.environ['WEBKIT_HOME']
 
@@ -150,12 +151,43 @@ class Builder:
 
         self.execute(('meson', 'compile', '-C', build_dir), check=True)
 
+    def _cmakeArgFromOption(self, name, value):
+        value_type = type(value)
+        value_str = None
+        if value_type == bool:
+            value_str = 'ON' if value else 'OFF'
+        elif value_type == str:
+            value_str = value
+        elif value_type == list:
+            value_str = ','.join(value)
+
+        if value_str is not None:
+            return f'-D{name.upper()}={value_str}'
+
+        return ''
+
+    def _cmakeArgsFromConfig(self, config):
+        def process_section(name):
+            args = []
+            for (name, value) in config[name].items():
+                arg = self._cmakeArgFromOption(name, value)
+                if arg:
+                    args.append(arg)
+            return args
+
+        return process_section('common') + process_section(self._options.platform)
+
     def _cmakeArgsFromFeatures(self):
         args = []
         if not self._options.no_experimental_features:
             args.append("-DENABLE_EXPERIMENTAL_FEATURES=ON")
 
-        # TODO: Add feature options
+        try:
+            with open("features.toml", "rb") as f:
+                data = toml.load(f)
+                args.extend(self._cmakeArgsFromConfig(data))
+        except FileNotFoundError:
+            pass
 
         return args
 
