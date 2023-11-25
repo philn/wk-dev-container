@@ -119,7 +119,7 @@ COPY scripts/ /scripts/
 
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.11.2
 RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.11.2
-RUN /scripts/install-gst-plugins-rs.sh dav1d 0.11.2
+RUN /scripts/install-gst-plugins-rs.sh dav1d 0.11.1
 RUN /scripts/install-gst-plugins-rs.sh rtp 0.11.2
 
 RUN cargo install sccache@0.7.2
