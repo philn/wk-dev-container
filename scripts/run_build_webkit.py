@@ -50,7 +50,9 @@ def main(argv):
         optparse.make_option("--no-developer-mode", action="store_true", default=False,
                              help=("Disable developer mode. Default: False")),
         optparse.make_option("--verbose", action="store_true", default=False,
-                             help=("Enable verbose output"))
+                             help=("Enable verbose output")),
+        optparse.make_option("--configure-only", action="store_true", default=False,
+                             help=("Only run the CMake configure step. Don't attempt any compilation job")),
     ])]
     parser = OptionParser(extra_groups=groups)
     options, args = parser.parse_known_args(argv)
@@ -77,6 +79,9 @@ def run(options, args, logging_stream):
     exitCode = builder.run(args)
     buildTime = elapsed(time.time() - startTime)
     _log.debug("Build completed, Exit status: %d" % exitCode)
+    if exitCode == -1:
+        # This was a configure run, so don't print any additional message.
+        return 0
     if exitCode == 0:
         resultStr = "is now built! 🎉"
         is_debug = "--debug" if options.configuration == "Debug" else ""
@@ -92,6 +97,7 @@ def run(options, args, logging_stream):
 class Builder:
     def __init__(self, options):
         self._options = options
+        self._env = runtime_environment()
 
     def numberOfCPUs(self):
         try:
@@ -106,6 +112,10 @@ class Builder:
             return None
 
     def run(self, args):
+        if self._options.configure_only:
+            self._generateBuildSystemFromCMakeProject(force=True)
+            return -1
+
         if self._options.no_ninja or os.environ.get("NUMBER_OF_PROCESSORS"):
             minusJOverride = True
             for opt in self._options.makeargs:
@@ -248,7 +258,11 @@ class Builder:
         return os.path.join(baseProductDir, self._cmakePortName())
 
     def _buildDir(self):
-        return os.path.join(self._baseProductDir(), self._options.configuration)
+        try:
+            # Useful mostly for CMake configure jobs done for clangd-indexer.
+            return os.environ['WEBKIT_BUILDDIR']
+        except KeyError:
+            return os.path.join(self._baseProductDir(), self._options.configuration)
 
     def execute(self, args, cwd=None, env=None, check=False):
         _log.debug(" ".join(args))
@@ -265,20 +279,31 @@ class Builder:
             data = f.read()
             return data.strip().lower() == "yes"
 
-    def _generateBuildSystemFromCMakeProject(self, env=None):
-        port = self._cmakePortName()
+    def _generateBuildSystemFromCMakeProject(self, force=False):
+        cache_file = self._cmakeCachePath()
+        build_file = self._cmakeGeneratedBuildFile()
 
         features = self._cmakeArgsFromFeatures()
-        if self._shouldRemoveCMakeCache(features) and os.path.isfile(self._cmakeCachePath()):
-            os.unlink(self._cmakeCachePath())
+        if self._shouldRemoveCMakeCache(features) and os.path.isfile(cache_file):
+            os.unlink(cache_file)
 
-        # We try to be smart about when to rerun cmake, so that we can have faster incremental builds.
-        if os.path.isfile(self._cmakeCachePath()) and os.path.isfile(self._cmakeGeneratedBuildFile()):
-            return
+        if force:
+            if os.path.isfile(cache_file):
+                os.unlink(cache_file)
+            if os.path.isfile(build_file):
+                os.unlink(build_file)
+        else:
+            # We try to be smart about when to rerun cmake, so that we can have faster incremental builds.
+            if os.path.isfile(cache_file) and os.path.isfile(build_file):
+                return
 
-        cmd = ["cmake", "-DPORT=%s" % port,
+        self._cmakeConfigure(self._buildDir())
+
+    def _cmakeConfigure(self, build_path):
+        port = self._cmakePortName()
+        cmd = ["cmake", "-S", SOURCE_DIRECTORY, "-B", build_path, f"-DPORT={port}",
                "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
-               "-DCMAKE_BUILD_TYPE=%s" % self._options.configuration]
+               f"-DCMAKE_BUILD_TYPE={self._options.configuration}"]
 
         if not self._options.no_developer_mode:
             cmd.append("-DDEVELOPER_MODE=ON")
@@ -289,22 +314,18 @@ class Builder:
         if self._asanEnabled():
             cmd.append("-DENABLE_SANITIZERS=address")
 
-        cmd.extend(features)
+        cmd.extend(self._cmakeArgsFromFeatures())
         for cmakearg in self._options.cmakeargs:
             cmd.extend(cmakearg.split(' '))
-        cmd.append(SOURCE_DIRECTORY)
-        build_path = self._buildDir()
-        self._mkdir(build_path)
-        self.execute(cmd, cwd=build_path, env=env)
+        self.execute(cmd, env=self._env)
 
-    def _buildCMakeGeneratedProject(self, env=None):
+    def _buildCMakeGeneratedProject(self):
         cmd = ["cmake", "--build", self._buildDir(), "--config", self._options.configuration]
         if self._options.makeargs:
             cmd.append("--")
             cmd.extend(self._options.makeargs)
-        return self.execute(cmd, env=env)
+        return self.execute(cmd, env=self._env)
 
     def _buildCMakeProject(self):
-        env = runtime_environment()
-        self._generateBuildSystemFromCMakeProject(env=env)
-        return self._buildCMakeGeneratedProject(env=env)
+        self._generateBuildSystemFromCMakeProject()
+        return self._buildCMakeGeneratedProject()
