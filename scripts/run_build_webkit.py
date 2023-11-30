@@ -57,9 +57,10 @@ def main(argv):
     parser = OptionParser(extra_groups=groups)
     options, args = parser.parse_known_args(argv)
 
-    if set(args).issubset(["-h", "--help"]) and not options.platform:
+    if "-h" in args or "--help" in args:
         parser.print_help()
-        print("\nTo see the available options on a specific platform, supply it on the command-line, for example --gtk --help")
+        if not options.platform:
+            print("\nTo see the available options on a specific platform, supply it on the command-line, for example --gtk --help")
         return 0
 
     try:
