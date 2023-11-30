@@ -249,9 +249,9 @@ class Builder:
         return os.path.join(self._buildDir(), filename)
 
     def _cmakePortName(self):
-        # untested: win, playstation, win-cairo, ftw, apple-win, mac, jsc-only
-        mapping = {"gtk": "GTK", "wpe": "WPE", "win": "Win", "playstation": "PlayStation", "win-cairo": "WinCairo",
-                   "ftw": "FTW", "apple-win": "AppleWin", "mac": "Mac", "jsc-only": "JSCOnly"}
+        # untested: playstation, win-cairo, mac, jsc-only
+        mapping = {"gtk": "GTK", "wpe": "WPE", "playstation": "PlayStation", "win-cairo": "WinCairo",
+                   "mac": "Mac", "jsc-only": "JSCOnly"}
         return mapping.get(self._options.platform, "")
 
     def _baseProductDir(self):
