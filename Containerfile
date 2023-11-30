@@ -128,6 +128,13 @@ RUN /scripts/prepare-sccache.sh
 RUN /scripts/install-build-webkit.sh
 RUN /scripts/install-launchers.sh
 
+ARG CLANGD_TOOLS_VERSION=17.0.3
+RUN wget https://github.com/clangd/clangd/releases/download/$CLANGD_TOOLS_VERSION/clangd_indexing_tools-linux-$CLANGD_TOOLS_VERSION.zip && \
+    unzip clangd_indexing_tools-linux-$CLANGD_TOOLS_VERSION.zip && \
+    mkdir -p /usr/local/clangd-indexer && \
+    mv clangd_$CLANGD_TOOLS_VERSION/* /usr/local/clangd-indexer && \
+    rm -fr clangd_indexing_tools-linux-$CLANGD_TOOLS_VERSION.zip
+
 RUN dnf clean all
 RUN rm -rf /var/cache/dnf /var/log/dnf* /scripts/
 RUN rm -f /var/lib/dnf/history.*
