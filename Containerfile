@@ -2,7 +2,7 @@ FROM registry.fedoraproject.org/fedora-toolbox:39
 
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
-    PATH=/usr/local/cargo/bin:$PATH \
+    PATH=/usr/local/cargo/bin:/usr/local/clangd-indexer/bin:/usr/local/clangd/bin:$PATH \
     DEBUGINFOD_URLS=https://debuginfod.fedoraproject.org \
     QT_QPA_PLATFORM=wayland
 
@@ -134,6 +134,12 @@ RUN wget https://github.com/clangd/clangd/releases/download/$CLANGD_TOOLS_VERSIO
     mkdir -p /usr/local/clangd-indexer && \
     mv clangd_$CLANGD_TOOLS_VERSION/* /usr/local/clangd-indexer && \
     rm -fr clangd_indexing_tools-linux-$CLANGD_TOOLS_VERSION.zip
+
+RUN wget https://github.com/clangd/clangd/releases/download/$CLANGD_TOOLS_VERSION/clangd-linux-$CLANGD_TOOLS_VERSION.zip && \
+    unzip clangd-linux-$CLANGD_TOOLS_VERSION.zip && \
+    mkdir -p /usr/local/clangd && \
+    mv clangd_$CLANGD_TOOLS_VERSION/* /usr/local/clangd && \
+    rm -fr clangd-linux-$CLANGD_TOOLS_VERSION.zip
 
 RUN dnf clean all
 RUN rm -rf /var/cache/dnf /var/log/dnf* /scripts/
