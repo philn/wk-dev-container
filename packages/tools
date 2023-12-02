@@ -10,6 +10,7 @@ graphviz
 gstreamer1-plugins-base-tools
 heaptrack
 httpd
+jq
 libva-utils
 lldb
 llvm
