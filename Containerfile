@@ -27,7 +27,7 @@ RUN pip install meson
 RUN dnf -y builddep gstreamer1-plugins-bad-free
 
 RUN git clone -b 1.22 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.22.7 && \
+    git -C gstreamer checkout 1.22.8 && \
     meson setup --prefix=/usr \
        -Damfcodec=disabled \
        -Davtp=disabled \
@@ -118,9 +118,9 @@ RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
 COPY scripts/ /scripts/
 
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.11.2
-RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.11.2
+RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.11.3
 RUN /scripts/install-gst-plugins-rs.sh dav1d 0.11.1
-RUN /scripts/install-gst-plugins-rs.sh rtp 0.11.2
+RUN /scripts/install-gst-plugins-rs.sh rtp 0.11.3
 
 RUN cargo install sccache@0.7.4
 RUN /scripts/prepare-sccache.sh
