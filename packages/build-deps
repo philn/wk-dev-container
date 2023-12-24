@@ -34,6 +34,7 @@ libmanette-devel
 libmount-devel
 libpng-devel
 libportal-devel
+libportal-gtk4-devel
 libseccomp-devel
 libsecret-devel
 libsoup3-devel
