@@ -47,6 +47,9 @@ def runtime_environment():
         return os.environ.copy()
 
     build_dir = os.path.join(WEBKIT_HOME, 'WebKitBuild', 'deps-build')
+    if not os.path.isdir(build_dir):
+        return os.environ.copy()
+
     command = ['meson', 'devenv', '-C', build_dir, '--dump']
     proc = subprocess.run(command, capture_output=True, text=True)
     if proc.returncode != 0:
