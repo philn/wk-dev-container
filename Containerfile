@@ -123,7 +123,7 @@ RUN /scripts/install-gst-plugins-rs.sh dav1d 0.11.1
 RUN /scripts/install-gst-plugins-rs.sh livesync 0.11.2
 RUN /scripts/install-gst-plugins-rs.sh rtp 0.11.3
 
-RUN cargo install sccache@0.7.4
+RUN cargo install sccache@0.7.6
 RUN /scripts/prepare-sccache.sh
 
 RUN /scripts/install-build-webkit.sh
