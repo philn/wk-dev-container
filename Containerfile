@@ -27,7 +27,7 @@ RUN pip install meson
 RUN dnf -y builddep gstreamer1-plugins-bad-free
 
 RUN git clone -b 1.22 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.22.8 && \
+    git -C gstreamer checkout 1.22.9 && \
     meson setup --prefix=/usr \
        -Damfcodec=disabled \
        -Davtp=disabled \
