@@ -1,5 +1,6 @@
 apitrace
 apitrace-gui
+clang-analyzer
 cpulimit
 curl
 direnv
