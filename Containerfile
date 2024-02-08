@@ -17,7 +17,6 @@ COPY packages/ /packages/
 RUN dnf -y install $(<packages/build-deps)
 RUN dnf -y install $(<packages/multimedia-deps)
 RUN dnf -y install $(<packages/tools)
-RUN dnf -y install $(<packages/yocto-deps)
 
 RUN dnf -y remove mesa-va-drivers
 RUN dnf -y install mesa-va-drivers-freeworld

@@ -61,6 +61,7 @@ perl-FindBin
 perl-JSON-PP
 perl-Time-HiRes
 perl-autouse
+perl-bignum
 perl-version
 python3-gobject
 qt5-qtbase-devel
