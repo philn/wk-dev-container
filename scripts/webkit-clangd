@@ -2,10 +2,37 @@
 import os
 import sys
 import subprocess
+import tomllib as toml
 
 WEBKIT_HOME = os.environ['WEBKIT_HOME']
 
 from webkit_cli import OptionParser
+
+def argFromOption(name, value):
+    value_type = type(value)
+    value_str = None
+    if value_type == bool:
+        value_str = 'true' if value else 'false'
+    elif value_type == str:
+        value_str = value
+    elif value_type == list:
+        value_str = ','.join(value)
+
+    if value_str is not None:
+        return f'--{name}={value_str}'
+
+    return ''
+
+def argsFromConfig(config, platform):
+    def process_section(name):
+        args = []
+        for (name, value) in config[name].items():
+            arg = argFromOption(name, value)
+            if arg:
+                args.append(arg)
+        return args
+
+    return process_section('common') + process_section(platform)
 
 def main(argv):
     parser = OptionParser()
@@ -13,6 +40,12 @@ def main(argv):
 
     webkit_outputdir = os.path.join(WEBKIT_HOME, 'WebKitBuild', options.platform.upper(), options.configuration)
     args = ['clangd', f"--compile-commands-dir={webkit_outputdir}"] + args[1:]
+    try:
+        with open(os.path.join(WEBKIT_HOME, "webkit-clangd.toml"), "rb") as f:
+            data = toml.load(f)
+            args.extend(argsFromConfig(data, options.platform))
+    except FileNotFoundError:
+        pass
     return subprocess.call(args)
 
 if __name__ == '__main__':
