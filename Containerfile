@@ -116,11 +116,11 @@ RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
 
 COPY scripts/ /scripts/
 
-RUN /scripts/install-gst-plugins-rs.sh audiofx 0.11.2
-RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.11.3
-RUN /scripts/install-gst-plugins-rs.sh dav1d 0.11.1
-RUN /scripts/install-gst-plugins-rs.sh livesync 0.11.2
-RUN /scripts/install-gst-plugins-rs.sh rtp 0.11.3
+RUN /scripts/install-gst-plugins-rs.sh audiofx 0.12.0
+RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.12.0
+RUN /scripts/install-gst-plugins-rs.sh dav1d 0.12.0
+RUN /scripts/install-gst-plugins-rs.sh livesync 0.12.0
+RUN /scripts/install-gst-plugins-rs.sh rtp 0.12.0
 
 RUN cargo install sccache@0.7.7
 RUN /scripts/prepare-sccache.sh
