@@ -38,7 +38,8 @@ def main(argv):
     parser = OptionParser()
     options, args = parser.parse_known_args(argv)
 
-    webkit_outputdir = os.path.join(WEBKIT_HOME, 'WebKitBuild', options.platform.upper(), options.configuration)
+    outputdir = os.environ.get('WEBKIT_OUTPUTDIR', os.path.join(WEBKIT_HOME, 'WebKitBuild'))
+    webkit_outputdir = os.path.join(outputdir, options.platform.upper(), options.configuration)
     args = ['clangd', f"--compile-commands-dir={webkit_outputdir}"] + args[1:]
     try:
         with open(os.path.join(WEBKIT_HOME, "webkit-clangd.toml"), "rb") as f:
