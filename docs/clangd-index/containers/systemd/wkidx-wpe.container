@@ -1,0 +1,11 @@
+[Unit]
+Description=WPEWebKit Clang Index container
+
+[Container]
+Image=docker.io/philn2/wk-dev:f39
+Volume=/home/phil/WebKit:/home/phil/WebKit:z
+Environment=WEBKIT_HOME=/home/phil/WebKit
+Exec=/usr/local/bin/webkit-clangd-indexer -p wpe
+
+[Install]
+WantedBy=local.target

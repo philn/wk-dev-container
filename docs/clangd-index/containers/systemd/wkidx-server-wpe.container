@@ -1,0 +1,11 @@
+[Unit]
+Description=WPEWebKit Clang Index Server container
+
+[Container]
+Image=docker.io/philn2/wk-dev:f39
+Volume=/home/phil/WebKit:/home/phil/WebKit:z
+Exec=/usr/local/clangd-indexer/bin/clangd-index-server --server-address=0.0.0.0:50052 /home/phil/WebKit/wpe-clangd-index.idx /
+PublishPort=50052
+
+[Install]
+WantedBy=local.target

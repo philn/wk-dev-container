@@ -1,0 +1,8 @@
+[Unit]
+Description=Refresh WebKitGTK Clangd index
+
+[Timer]
+OnCalendar=*-*-* 8:00:00
+
+[Install]
+WantedBy=timers.target
