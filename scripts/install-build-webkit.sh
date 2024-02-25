@@ -9,4 +9,5 @@ mkdir -p $PY_DEST
 mv /scripts/*.py $PY_DEST
 
 mv /scripts/b-webkit $BIN_DEST
+mv /scripts/b-webkits $BIN_DEST
 mv /scripts/build-webkit-ng $BIN_DEST

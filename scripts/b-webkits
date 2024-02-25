@@ -1,0 +1,4 @@
+#!/bin/sh
+
+b-webkit --git-pull --gtk || true
+b-webkit --wpe
