@@ -53,6 +53,9 @@ def main(argv):
                              help=("Enable verbose output")),
         optparse.make_option("--configure-only", action="store_true", default=False,
                              help=("Only run the CMake configure step. Don't attempt any compilation job")),
+        optparse.make_option("--git-update", action="store_true", default=False,
+                             help=("Update the git checkout before building")),
+
     ])]
     parser = OptionParser(extra_groups=groups)
     options, args = parser.parse_known_args(argv)
@@ -113,6 +116,9 @@ class Builder:
             return None
 
     def run(self, args):
+        if self._options.git_update:
+            self.execute(('git', '-C', SOURCE_DIRECTORY, 'pull'))
+
         if self._options.configure_only:
             self._generateBuildSystemFromCMakeProject(force=True)
             return -1
