@@ -200,7 +200,7 @@ class Builder:
             args.append("-DENABLE_EXPERIMENTAL_FEATURES=ON")
 
         try:
-            with open("features.toml", "rb") as f:
+            with open(os.path.join(SOURCE_DIRECTORY, "features.toml"), "rb") as f:
                 data = toml.load(f)
                 args.extend(self._cmakeArgsFromConfig(data))
         except FileNotFoundError:
