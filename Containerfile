@@ -25,48 +25,54 @@ RUN pip install meson
 
 RUN dnf -y builddep gstreamer1-plugins-bad-free
 
-RUN git clone -b 1.22 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.22.10 && \
+RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
+    git -C gstreamer checkout 1.24.0 && \
     meson setup --prefix=/usr \
-       -Damfcodec=disabled \
-       -Davtp=disabled \
-       -Ddc1394=disabled \
-       -Ddirectfb=disabled \
-       -Ddirectshow=disabled \
        -Ddoc=disabled \
-       -Ddts=disabled \
-       -Ddvbsuboverlay=disabled \
-       -Ddvdspu=disabled \
-       -Dfaac=disabled \
-       -Dfaad=disabled \
-       -Dflite=disabled \
-       -Dgpl=enabled \
-       -Dgs=disabled \
-       -Diqa=disabled \
-       -Dlibde265=disabled \
-       -Dmagicleap=disabled \
-       -Dmpeg2enc=disabled \
-       -Dmplex=disabled \
-       -Dmsdk=disabled \
-       -Dneon=disabled \
-       -Donnx=disabled \
-       -Dopenaptx=disabled \
-       -Dopencv=disabled \
-       -Dopenni2=disabled \
-       -Dopensles=disabled \
-       -Dqsv=disabled \
-       -Drtmp=disabled \
-       -Dsbc=disabled \
-       -Dsiren=disabled \
        -Dtests=disabled \
-       -Dtinyalsa=disabled \
-       -Dvoaacenc=disabled \
-       -Dwasapi2=disabled \
-       -Dwasapi=disabled \
-       -Dwpe=disabled \
-       -Dx11=disabled \
-       -Dzxing=disabled \
-     _build gstreamer/subprojects/gst-plugins-bad && \
+       -Dges=disabled \
+       -Drtsp_server=disabled \
+       -Dgst-examples=disabled \
+       -Dpython=disabled \
+       -Dgpl=enabled \
+       -Dgst-plugins-bad:amfcodec=disabled \
+       -Dgst-plugins-bad:avtp=disabled \
+       -Dgst-plugins-bad:dc1394=disabled \
+       -Dgst-plugins-bad:directfb=disabled \
+       -Dgst-plugins-bad:directshow=disabled \
+       -Dgst-plugins-bad:dts=disabled \
+       -Dgst-plugins-bad:dvbsuboverlay=disabled \
+       -Dgst-plugins-bad:dvdspu=disabled \
+       -Dgst-plugins-bad:faac=disabled \
+       -Dgst-plugins-bad:faad=disabled \
+       -Dgst-plugins-bad:flite=disabled \
+       -Dgst-plugins-bad:gpl=enabled \
+       -Dgst-plugins-bad:gs=disabled \
+       -Dgst-plugins-bad:iqa=disabled \
+       -Dgst-plugins-bad:libde265=disabled \
+       -Dgst-plugins-bad:magicleap=disabled \
+       -Dgst-plugins-bad:mpeg2enc=disabled \
+       -Dgst-plugins-bad:mplex=disabled \
+       -Dgst-plugins-bad:msdk=disabled \
+       -Dgst-plugins-bad:neon=disabled \
+       -Dgst-plugins-bad:onnx=disabled \
+       -Dgst-plugins-bad:openaptx=disabled \
+       -Dgst-plugins-bad:opencv=disabled \
+       -Dgst-plugins-bad:openni2=disabled \
+       -Dgst-plugins-bad:opensles=disabled \
+       -Dgst-plugins-bad:qsv=disabled \
+       -Dgst-plugins-bad:rtmp=disabled \
+       -Dgst-plugins-bad:sbc=disabled \
+       -Dgst-plugins-bad:siren=disabled \
+       -Dgst-plugins-bad:tinyalsa=disabled \
+       -Dgst-plugins-bad:voaacenc=disabled \
+       -Dgst-plugins-bad:wasapi2=disabled \
+       -Dgst-plugins-bad:wasapi=disabled \
+       -Dgst-plugins-bad:wpe=disabled \
+       -Dgst-plugins-bad:x11=disabled \
+       -Dgst-plugins-bad:zxing=disabled \
+       -Dgst-plugins-ugly:gpl=enabled \
+     _build gstreamer/ && \
     meson compile -C _build && \
     meson install -C _build && \
     rm -fr _build gstreamer
