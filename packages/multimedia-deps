@@ -23,5 +23,6 @@ nasm
 opus-devel
 pipewire-gstreamer
 pulseaudio-libs-devel
+speex-devel
 svt-av1-devel
 x265-devel
