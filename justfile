@@ -1,5 +1,5 @@
 
-tag := "wk-dev:f39"
+tag := "wk-dev:f40"
 registry := "docker://philn2"
 image := "docker.io/philn2"
 
