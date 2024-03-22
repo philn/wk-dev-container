@@ -80,15 +80,14 @@ RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
 # Disable gupnp in libnice, triggers critical warnings and leaks.
 RUN git clone https://gitlab.freedesktop.org/libnice/libnice && \
     meson setup --prefix=/usr \
-    -Dgupnp=disabled \
-    -Dgstreamer=enabled \
-    _build libnice && \
+      -Dgupnp=disabled \
+      -Dgstreamer=enabled \
+     _build libnice && \
     meson compile -C _build && \
     meson install -C _build && \
     rm -fr _build libnice
 
 RUN git clone https://github.com/rr-debugger/rr && \
-    dnf -y install capnproto{,-devel} && \
     cmake -GNinja -B rr-build -S rr -DCMAKE_INSTALL_PREFIX=/usr -Ddisable32bit=ON -DBUILD_TESTS=OFF && \
     ninja -C rr-build install && \
     rm -fr rr-build rr

@@ -4,6 +4,8 @@ bison
 bubblewrap
 cairo-devel
 cairo-gobject-devel
+capnproto
+capnproto-devel
 clang
 cmake
 enchant-devel
