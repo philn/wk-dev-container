@@ -103,10 +103,12 @@ class Builder:
         self._makeargs = []
 
     def numberOfCPUs(self):
-        try:
-            return int(os.environ["NUMBER_OF_PROCESSORS"])
-        except:
-            return Executive().cpu_count()
+        for key in ("SCCACHE_NUM_CPUS", "NUMBER_OF_PROCESSORS"):
+            try:
+                return int(os.environ[key])
+            except:
+                continue
+        return Executive().cpu_count()
 
     def maxCPULoad(self):
         try:
@@ -124,8 +126,7 @@ class Builder:
             self._generateBuildSystemFromCMakeProject(force=True)
             return -1
 
-        if os.environ.get("NUMBER_OF_PROCESSORS"):
-            print("woo ", os.environ.get("NUMBER_OF_PROCESSORS"))
+        if self._options.no_ninja:
             minusJOverride = True
             for opt in self._makeargs:
                 if opt.startswith("-j"):
