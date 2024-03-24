@@ -39,8 +39,6 @@ _log = logging.getLogger(__name__)
 
 def main(argv):
     groups = [("Build options", [
-        optparse.make_option("--makeargs", action="append", default=[],
-                             help=("Optional Makefile flags")),
         optparse.make_option("--cmakeargs", action="append", default=[],
                              help=("One or more optional CMake flags (e.g. --cmakeargs=\"-DFOO=bar -DCMAKE_PREFIX_PATH=/usr/local\"")),
         optparse.make_option("--no-ninja", action="store_true", default=False,
@@ -102,6 +100,7 @@ class Builder:
     def __init__(self, options):
         self._options = options
         self._env = runtime_environment()
+        self._makeargs = []
 
     def numberOfCPUs(self):
         try:
@@ -116,6 +115,8 @@ class Builder:
             return None
 
     def run(self, args):
+        self._makeargs = args
+
         if self._options.git_update:
             self.execute(('git', '-C', SOURCE_DIRECTORY, 'pull'))
 
@@ -123,17 +124,18 @@ class Builder:
             self._generateBuildSystemFromCMakeProject(force=True)
             return -1
 
-        if self._options.no_ninja or os.environ.get("NUMBER_OF_PROCESSORS"):
+        if os.environ.get("NUMBER_OF_PROCESSORS"):
+            print("woo ", os.environ.get("NUMBER_OF_PROCESSORS"))
             minusJOverride = True
-            for opt in self._options.makeargs:
+            for opt in self._makeargs:
                 if opt.startswith("-j"):
                     minusJOverride = False
                     break
             if minusJOverride:
-                self._options.makeargs.append("-j%d" % self.numberOfCPUs())
+                self._makeargs.append("-j%d" % self.numberOfCPUs())
 
         minusLOverride = True
-        for opt in self._options.makeargs:
+        for opt in self._makeargs:
             if opt.startswith("-l"):
                 minusLOverride = False
                 break
@@ -328,9 +330,9 @@ class Builder:
 
     def _buildCMakeGeneratedProject(self):
         cmd = ["cmake", "--build", self._buildDir(), "--config", self._options.configuration]
-        if self._options.makeargs:
-            cmd.append("--")
-            cmd.extend(self._options.makeargs)
+        if self._makeargs:
+            cmd.extend(self._makeargs)
+
         return self.execute(cmd, env=self._env)
 
     def _buildCMakeProject(self):
