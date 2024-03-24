@@ -1,8 +1,5 @@
 #!/bin/sh
 
-export NUMBER_OF_PROCESSORS=$SCCACHE_NUM_CPUS
-
 exec build-webkit-ng \
-     --cmakeargs='-DDEVELOPER_MODE_FATAL_WARNINGS=OFF' \
      $EXTRA_BUILD_WEBKIT_ARGS \
      $@
