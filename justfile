@@ -4,6 +4,7 @@ registry := "docker://philn2"
 image := "docker.io/philn2"
 
 build:
+  podman pull registry.fedoraproject.org/fedora-toolbox:40
   podman build -t {{tag}} .
 
 push: build
