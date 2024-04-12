@@ -123,9 +123,16 @@ COPY scripts/ /scripts/
 
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.12.0
 RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.12.0
-RUN /scripts/install-gst-plugins-rs.sh dav1d 0.12.0
 RUN /scripts/install-gst-plugins-rs.sh livesync 0.12.0
 RUN /scripts/install-gst-plugins-rs.sh rtp 0.12.0
+
+# Install main version of gst-plugin-dav1d until some release supporting dav1d 1.4 ships.
+RUN git clone https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs && \
+    pushd gst-plugins-rs && \
+    cargo build --release -p gst-plugin-dav1d && \
+    install -D -m a+r -t "/usr/lib64/gstreamer-1.0" ./target/release/libgst*.so && \
+    popd && \
+    rm -fr gst-plugins-rs
 
 RUN cargo install sccache@0.7.7
 RUN /scripts/prepare-sccache.sh
