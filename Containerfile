@@ -25,6 +25,7 @@ RUN pip install meson
 
 RUN dnf -y builddep gstreamer1-plugins-bad-free
 
+# NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
     git -C gstreamer checkout 1.24.2 && \
     meson setup --prefix=/usr \
@@ -72,20 +73,11 @@ RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
        -Dgst-plugins-bad:x11=disabled \
        -Dgst-plugins-bad:zxing=disabled \
        -Dgst-plugins-ugly:gpl=enabled \
+       -Dlibnice:gupnp=disabled \
      _build gstreamer/ && \
     meson compile -C _build && \
     meson install -C _build && \
     rm -fr _build gstreamer
-
-# Disable gupnp in libnice, triggers critical warnings and leaks.
-RUN git clone https://gitlab.freedesktop.org/libnice/libnice && \
-    meson setup --prefix=/usr \
-      -Dgupnp=disabled \
-      -Dgstreamer=enabled \
-     _build libnice && \
-    meson compile -C _build && \
-    meson install -C _build && \
-    rm -fr _build libnice
 
 RUN git clone https://github.com/rr-debugger/rr && \
     cmake -GNinja -B rr-build -S rr -DCMAKE_INSTALL_PREFIX=/usr -Ddisable32bit=ON -DBUILD_TESTS=OFF && \
