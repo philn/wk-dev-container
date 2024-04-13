@@ -114,9 +114,9 @@ RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
 COPY scripts/ /scripts/
 
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.12.0
-RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.12.0
-RUN /scripts/install-gst-plugins-rs.sh livesync 0.12.0
-RUN /scripts/install-gst-plugins-rs.sh rtp 0.12.0
+RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.12.4
+RUN /scripts/install-gst-plugins-rs.sh livesync 0.12.3
+RUN /scripts/install-gst-plugins-rs.sh rtp 0.12.4
 
 # Install main version of gst-plugin-dav1d until some release supporting dav1d 1.4 ships.
 RUN git clone https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs && \
