@@ -108,7 +108,7 @@ class Builder:
                 return int(os.environ[key])
             except:
                 continue
-        return Executive().cpu_count()
+        return None
 
     def maxCPULoad(self):
         try:
@@ -126,14 +126,15 @@ class Builder:
             self._generateBuildSystemFromCMakeProject(force=True)
             return -1
 
-        if self._options.no_ninja:
-            minusJOverride = True
-            for opt in self._makeargs:
-                if opt.startswith("-j"):
-                    minusJOverride = False
-                    break
-            if minusJOverride:
-                self._makeargs.append("-j%d" % self.numberOfCPUs())
+        minusJOverride = True
+        for opt in self._makeargs:
+            if opt.startswith("-j"):
+                minusJOverride = False
+                break
+        if minusJOverride:
+            numberOfCPUs = self.numberOfCPUs()
+            if numberOfCPUs:
+                self._makeargs.append("-j%d" % numberOfCPUs)
 
         minusLOverride = True
         for opt in self._makeargs:
@@ -333,7 +334,7 @@ class Builder:
         cmd = ["cmake", "--build", self._buildDir(), "--config", self._options.configuration]
         if self._makeargs:
             cmd.extend(self._makeargs)
-
+        print(f"Running {' '.join(cmd)}")
         return self.execute(cmd, env=self._env)
 
     def _buildCMakeProject(self):
