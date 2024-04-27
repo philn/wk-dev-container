@@ -121,6 +121,7 @@ RUN /scripts/install-gst-plugins-rs.sh rtp 0.12.4
 # Install main version of gst-plugin-dav1d until some release supporting dav1d 1.4 ships.
 RUN git clone https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs && \
     pushd gst-plugins-rs && \
+    git checkout 88cbc93338109b3e2476dffa54dda492d1c6e8d5 && \
     cargo build --release -p gst-plugin-dav1d && \
     install -D -m a+r -t "/usr/lib64/gstreamer-1.0" ./target/release/libgst*.so && \
     popd && \
