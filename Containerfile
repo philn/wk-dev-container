@@ -27,7 +27,7 @@ RUN dnf -y builddep gstreamer1-plugins-bad-free
 
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.24.2 && \
+    git -C gstreamer checkout 1.24.3 && \
     meson setup --prefix=/usr \
        -Ddoc=disabled \
        -Dtests=disabled \
