@@ -21,6 +21,7 @@ mod_ssl
 openssl
 pastebinit
 patch
+perf
 perl-Env
 perl-Test-Harness
 perl-Test-More-UTF8
