@@ -41,8 +41,6 @@ def main(argv):
     groups = [("Build options", [
         optparse.make_option("--cmakeargs", action="append", default=[],
                              help=("One or more optional CMake flags (e.g. --cmakeargs=\"-DFOO=bar -DCMAKE_PREFIX_PATH=/usr/local\"")),
-        optparse.make_option("--no-ninja", action="store_true", default=False,
-                             help=("Disable Ninja for CMake builds. In this case make will be used. Default: False")),
         optparse.make_option("--no-experimental-features", action="store_true", default=False,
                              help=("Disable experimental CMake features. Default: False")),
         optparse.make_option("--no-developer-mode", action="store_true", default=False,
@@ -251,13 +249,6 @@ class Builder:
     def _cmakeCachePath(self):
         return os.path.join(self._buildDir(), "CMakeCache.txt")
 
-    def _cmakeGeneratedBuildFile(self):
-        if not self._options.no_ninja:
-            filename = "build.ninja"
-        else:
-            filename = "Makefile"
-        return os.path.join(self._buildDir(), filename)
-
     def _cmakePortName(self):
         # untested: playstation, win-cairo, mac, jsc-only
         mapping = {"gtk": "GTK", "wpe": "WPE", "playstation": "PlayStation", "win-cairo": "WinCairo",
@@ -292,7 +283,7 @@ class Builder:
 
     def _generateBuildSystemFromCMakeProject(self, force=False):
         cache_file = self._cmakeCachePath()
-        build_file = self._cmakeGeneratedBuildFile()
+        build_file = os.path.join(self._buildDir(), "build.ninja")
 
         features = self._cmakeArgsFromFeatures()
         if self._shouldRemoveCMakeCache(features) and os.path.isfile(cache_file):
@@ -312,15 +303,12 @@ class Builder:
 
     def _cmakeConfigure(self, build_path):
         port = self._cmakePortName()
-        cmd = ["cmake", "-S", SOURCE_DIRECTORY, "-B", build_path, f"-DPORT={port}",
+        cmd = ["cmake", "-GNinja", "-S", SOURCE_DIRECTORY, "-B", build_path, f"-DPORT={port}",
                "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
                f"-DCMAKE_BUILD_TYPE={self._options.configuration}"]
 
         if not self._options.no_developer_mode:
             cmd.append("-DDEVELOPER_MODE=ON")
-
-        if not self._options.no_ninja:
-            cmd.append("-GNinja")
 
         if self._asanEnabled():
             cmd.append("-DENABLE_SANITIZERS=address")
