@@ -250,10 +250,7 @@ class Builder:
         return os.path.join(self._buildDir(), "CMakeCache.txt")
 
     def _cmakePortName(self):
-        # untested: playstation, win-cairo, mac, jsc-only
-        mapping = {"gtk": "GTK", "wpe": "WPE", "playstation": "PlayStation", "win-cairo": "WinCairo",
-                   "mac": "Mac", "jsc-only": "JSCOnly"}
-        return mapping.get(self._options.platform, "")
+        return self._options.platform.upper()
 
     def _baseProductDir(self):
         baseProductDir = os.environ.get("WEBKIT_OUTPUTDIR", os.path.join(SOURCE_DIRECTORY, 'WebKitBuild'))
