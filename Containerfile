@@ -27,7 +27,7 @@ RUN dnf -y builddep gstreamer1-plugins-bad-free
 
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.24.3 && \
+    git -C gstreamer checkout 1.24.4 && \
     meson setup --prefix=/usr \
        -Ddoc=disabled \
        -Dtests=disabled \
@@ -116,7 +116,7 @@ COPY scripts/ /scripts/
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.12.5
 RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.12.4
 RUN /scripts/install-gst-plugins-rs.sh livesync 0.12.3
-RUN /scripts/install-gst-plugins-rs.sh rtp 0.12.5
+RUN /scripts/install-gst-plugins-rs.sh rtp 0.12.6
 
 # Install main version of gst-plugin-dav1d until some release supporting dav1d 1.4 ships.
 RUN git clone https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs && \
