@@ -11,6 +11,7 @@ graphviz
 gstreamer1-plugins-base-tools
 heaptrack
 httpd
+iwyu
 jq
 libva-utils
 lldb
