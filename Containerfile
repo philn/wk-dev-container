@@ -127,7 +127,7 @@ RUN git clone https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs && \
     popd && \
     rm -fr gst-plugins-rs
 
-RUN cargo install sccache@0.8.0
+RUN cargo install sccache@0.8.1
 RUN /scripts/prepare-sccache.sh
 
 RUN /scripts/install-build-webkit.sh
