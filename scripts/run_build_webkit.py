@@ -178,7 +178,7 @@ class Builder:
         elif value_type == str:
             value_str = value
         elif value_type == list:
-            value_str = ','.join(value)
+            value_str = ';'.join(value)
 
         if value_str is not None:
             return f'-D{name.upper()}={value_str}'
