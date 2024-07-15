@@ -177,7 +177,7 @@ class Builder:
             value_str = 'ON' if value else 'OFF'
         elif value_type == str:
             value_str = value
-        elif value_type == list:
+        elif value_type == list and value:
             value_str = ';'.join(value)
 
         if value_str is not None:
