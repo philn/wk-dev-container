@@ -269,15 +269,6 @@ class Builder:
             return subprocess.check_call(args, cwd=cwd, env=env)
         return subprocess.call(args, cwd=cwd, env=env)
 
-    def _asanEnabled(self):
-        asan = os.path.join(self._buildDir(), "ASan")
-        if not os.path.isfile(asan):
-            return False
-
-        with open(asan) as f:
-            data = f.read()
-            return data.strip().lower() == "yes"
-
     def _generateBuildSystemFromCMakeProject(self, force=False):
         cache_file = self._cmakeCachePath()
         build_file = os.path.join(self._buildDir(), "build.ninja")
@@ -306,9 +297,6 @@ class Builder:
 
         if not self._options.no_developer_mode:
             cmd.append("-DDEVELOPER_MODE=ON")
-
-        if self._asanEnabled():
-            cmd.append("-DENABLE_SANITIZERS=address")
 
         cmd.extend(self._cmakeArgsFromFeatures())
         for cmakearg in self._options.cmakeargs:
