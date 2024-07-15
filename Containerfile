@@ -113,6 +113,7 @@ RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
 
 COPY scripts/ /scripts/
 
+RUN cargo install cargo-c
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.12.7
 RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.12.7
 RUN /scripts/install-gst-plugins-rs.sh livesync 0.12.3
