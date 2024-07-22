@@ -13,10 +13,12 @@ def main(argv):
 
     env = runtime_environment()
 
-    base_outputdir = env.get('WEBKIT_OUTPUTDIR', os.path.join(WEBKIT_HOME, 'WebKitBuild'))
-    env['WEBKIT_OUTPUTDIR'] = os.path.join(base_outputdir, options.platform.upper(), options.configuration)
-
     target = os.path.basename(argv[0])
+
+    base_outputdir = env.get('WEBKIT_OUTPUTDIR', os.path.join(WEBKIT_HOME, 'WebKitBuild'))
+    if target != 'test-webkitpy':
+        env['WEBKIT_OUTPUTDIR'] = os.path.join(base_outputdir, options.platform.upper(), options.configuration)
+
     argv[0] = os.path.join(WEBKIT_HOME, 'Tools', 'Scripts', target)
     if not os.path.isfile(argv[0]):
         argv[0] = os.path.join('/usr/local/bin', target)
