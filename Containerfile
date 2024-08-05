@@ -25,9 +25,14 @@ RUN pip install meson
 
 RUN dnf -y builddep gstreamer1-plugins-bad-free
 
+COPY patches/ /patches/
+RUN git config --global user.email "philn@igalia.com"
+RUN git config --global user.name "Philippe Normand"
+
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.24.5 && \
+    git -C gstreamer checkout 1.24.6 && \
+    git -C gstreamer am /patches/gstreamer/*.patch && \
     meson setup --prefix=/usr \
        -Ddoc=disabled \
        -Dtests=disabled \
@@ -140,5 +145,5 @@ RUN wget https://github.com/clangd/clangd/releases/download/$CLANGD_TOOLS_VERSIO
     rm -fr clangd-linux-$CLANGD_TOOLS_VERSION.zip
 
 RUN dnf clean all
-RUN rm -rf /var/cache/dnf /var/log/dnf* /scripts/
+RUN rm -rf /var/cache/dnf /var/log/dnf* /scripts/ /patches/
 RUN rm -f /var/lib/dnf/history.*
