@@ -4,6 +4,7 @@ clang-analyzer
 cpulimit
 curl
 direnv
+egl-utils
 fish
 gdb
 gdb-gdbserver
