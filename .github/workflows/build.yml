@@ -11,15 +11,12 @@ jobs:
     runs-on: ubuntu-22.04
     permissions: write-all
     steps:
-      - name: Install podman
-        uses: gacts/install-podman@v1
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update && sudo apt-get -y install fuse-overlayfs podman
 
       - name: Install Just
         uses: extractions/setup-just@v2
-
-      - name: Install additional deps
-        run: |
-          sudo apt-get -y install fuse-overlayfs
 
       - name: Checkout repo
         uses: actions/checkout@v4
