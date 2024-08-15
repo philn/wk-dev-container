@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import re
+
+_escape = re.compile(b"\x1b\\[[0-9;]*m")
+
+def strip_escape(s):
+    while b"\x1b" in s:
+        s = _escape.sub(b"", s)
+    return s
+
+MARKER=b'WebCore logs identifier for this pipeline'
+
+def main(args):
+    log_file = os.path.expanduser(args[0])
+    mapping = {}
+    with open(log_file) as f:
+        lines = f.readlines()
+        lines_subset = []
+        for line in lines:
+            escaped = strip_escape(bytes(line, 'utf-8'))
+            if escaped.find(MARKER) != -1:
+                tokens = escaped.split(b' ')
+                gst_identifier = tokens[13].split(b':')[-1]
+                webcore_identifier = tokens[-1][:-1]
+                mapping[webcore_identifier] = gst_identifier.decode('utf-8')
+                continue
+            lines_subset.append(escaped)
+
+        for webcore_identifier, gst_identifier in mapping.items():
+            for i in range(len(lines_subset)):
+                line = lines_subset[i]
+                if line.find(webcore_identifier) != -1:
+                    tokens = line.split(b' ')
+                    filename_func = tokens[13].decode('utf-8')
+                    modified_line = line.replace(filename_func.encode(), f'{filename_func}{gst_identifier}'.encode())
+                    lines_subset[i] = modified_line
+
+    filename = os.path.basename(log_file)
+    dirname = os.path.dirname(log_file)
+    new_log_file = os.path.join(dirname, f'new-{filename}')
+    with open(new_log_file, 'w') as f:
+        f.writelines([line.decode() for line in lines_subset])
+    print(f'{log_file} rewritten as {new_log_file}')
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv[1:]))

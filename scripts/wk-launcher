@@ -26,7 +26,14 @@ def main(argv):
     if target == 'run-webkit-tests':
         env['TZ'] = 'America/Los_Angeles'
 
-    return subprocess.call(argv, env=env)
+    try:
+        result = subprocess.call(argv, env=env)
+    finally:
+        gst_debug_file = env.get('GST_DEBUG_FILE')
+        if gst_debug_file:
+            subprocess.call(['rewrite-wk-gst-log', gst_debug_file])
+
+    return result
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))

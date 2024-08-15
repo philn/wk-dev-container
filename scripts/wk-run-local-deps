@@ -5,3 +5,8 @@
 . $WEBKIT_HOME/local-runtime-options.sh
 
 run-minibrowser $ARGS $EXTRA_MB_ARGS "$@"
+
+if [ ! -z "$GST_DEBUG_FILE" ]
+then
+    rewrite-wk-gst-log $GST_DEBUG_FILE
+fi
