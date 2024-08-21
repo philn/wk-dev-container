@@ -23,6 +23,23 @@ RUN dnf -y install mesa-va-drivers-freeworld
 
 RUN pip install meson
 
+RUN dnf -y builddep sysprof-cli
+
+# https://gitlab.gnome.org/GNOME/sysprof/-/merge_requests/100
+# TODO: Revert this when sysprof-47 is out.
+RUN git clone https://gitlab.gnome.org/GNOME/sysprof.git && \
+    meson setup --prefix=/usr \
+       -Dgtk=false \
+       -Dhelp=false \
+       -Dtests=false \
+       -Dsysprofd=host \
+       -Dexamples=false \
+       -Dpolkit-agent=disabled \
+    _build sysprof/ && \
+    meson compile -C _build && \
+    meson install -C _build && \
+    rm -fr _build sysprof
+
 RUN dnf -y builddep gstreamer1-plugins-bad-free
 
 COPY patches/ /patches/
