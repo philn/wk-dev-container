@@ -14,6 +14,7 @@ push registry=default_registry:
 pull image=default_image:
   podman pull {{image}}/{{tag}}
   ./wk-bx -u --image {{image}}
+  podman image prune -a -f
 
 export archive=default_archive: build
   podman save --format=oci-archive -o {{archive}} {{tag}}
