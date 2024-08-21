@@ -2,7 +2,7 @@ name: build
 on:
   push:
     branches: [ main ]
-    paths-ignore: [ docs/*, README.md]
+    paths-ignore: [ docs/*, README.md, justfile]
 defaults:
   run:
     shell: bash
