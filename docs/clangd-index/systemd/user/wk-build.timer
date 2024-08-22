@@ -1,0 +1,8 @@
+[Unit]
+Description=Refresh WebKit Builds
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 9..18:00 Atlantic/Canary
+
+[Install]
+WantedBy=timers.target

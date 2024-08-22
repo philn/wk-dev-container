@@ -1,0 +1,8 @@
+[Unit]
+Description=Refresh WebKitGTK Build
+
+[Timer]
+OnCalendar=*-*-* 9:30:00
+
+[Install]
+WantedBy=timers.target

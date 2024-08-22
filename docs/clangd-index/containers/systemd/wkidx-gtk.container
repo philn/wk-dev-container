@@ -2,7 +2,8 @@
 Description=WebKitGTK Clang Index container
 
 [Container]
-Image=docker.io/philn2/wk-dev:f39
+Image=wk-dev.image
+AutoUpdate=registry
 Volume=/home/phil/WebKit:/home/phil/WebKit:z
 Environment=WEBKIT_HOME=/home/phil/WebKit
 Exec=/usr/local/bin/webkit-clangd-indexer -p gtk

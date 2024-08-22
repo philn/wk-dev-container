@@ -2,7 +2,7 @@
 Description=Refresh WPEWebKit Clangd index
 
 [Timer]
-OnCalendar=*-*-* 6:00:00
+OnCalendar=*-*-* 4:30:00 Atlantic/Canary
 
 [Install]
 WantedBy=timers.target

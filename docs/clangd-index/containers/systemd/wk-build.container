@@ -1,12 +1,13 @@
 [Unit]
-Description=WPEWebKit Clang Index container
+Description=WebKit Build container
 
 [Container]
 Image=wk-dev.image
 AutoUpdate=registry
 Volume=/home/phil/WebKit:/home/phil/WebKit:z
-Environment=WEBKIT_HOME=/home/phil/WebKit
-Exec=/usr/local/bin/webkit-clangd-indexer -p wpe
+EnvironmentFile=/home/phil/WebKit/b-webkit.env
+Exec=/usr/local/bin/b-webkits
+Network=host
 
 [Install]
 WantedBy=local.target

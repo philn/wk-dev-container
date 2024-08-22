@@ -2,7 +2,7 @@
 Description=Refresh WebKitGTK Clangd index
 
 [Timer]
-OnCalendar=*-*-* 8:00:00
+OnCalendar=*-*-* 6:45:00 Atlantic/Canary
 
 [Install]
 WantedBy=timers.target
