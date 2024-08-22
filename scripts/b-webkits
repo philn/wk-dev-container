@@ -1,4 +1,4 @@
 #!/bin/sh
 
-b-webkit --git-pull --gtk || true
+b-webkit --git-update --gtk || true
 b-webkit --wpe
