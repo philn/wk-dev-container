@@ -5,8 +5,3 @@
 . $WEBKIT_HOME/local-test-options.sh
 
 run-webkit-tests $ARGS "$@"
-
-if [ ! -z "$GST_DEBUG_FILE" ]
-then
-    rewrite-wk-gst-log $GST_DEBUG_FILE
-fi
