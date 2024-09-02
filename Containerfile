@@ -23,6 +23,8 @@ RUN dnf -y install mesa-va-drivers-freeworld
 
 RUN pip install meson
 
+RUN ln -s /usr/bin/flatpak-xdg-open /usr/bin/xdg-open
+
 RUN dnf -y builddep sysprof-cli
 
 # https://gitlab.gnome.org/GNOME/sysprof/-/merge_requests/100

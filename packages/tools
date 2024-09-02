@@ -6,6 +6,7 @@ curl
 direnv
 egl-utils
 fish
+flatpak-xdg-utils
 gdb
 gdb-gdbserver
 graphviz
