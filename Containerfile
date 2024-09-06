@@ -108,6 +108,11 @@ RUN git clone https://github.com/rr-debugger/rr && \
     ninja -C rr-build install && \
     rm -fr rr-build rr
 
+RUN git clone https://github.com/ggerganov/whisper.cpp && \
+    cmake -GNinja -B whisper-build -S whisper.cpp -DCMAKE_INSTALL_PREFIX=/usr -DWHISPER_BUILD_TESTS=NO -DWHISPER_BUILD_EXAMPLES=NO -DWHISPER_BUILD_SERVER=NO && \
+    ninja -C whisper-build install && \
+    rm -fr whisper-build whisper.cpp
+
 RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
     meson setup --prefix=/usr -Dsample-player=disabled _build sparkle-cdm && \
     meson compile -C _build && \
