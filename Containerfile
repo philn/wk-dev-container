@@ -113,6 +113,12 @@ RUN git clone https://github.com/ggerganov/whisper.cpp && \
     ninja -C whisper-build install && \
     rm -fr whisper-build whisper.cpp
 
+RUN git clone http://github.com/project-spiel/libspiel && \
+    meson setup --prefix=/usr -Dtests=false _build libspiel && \
+    meson compile -C _build && \
+    meson install -C _build && \
+    rm -fr _build libspiel
+
 RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
     meson setup --prefix=/usr -Dsample-player=disabled _build sparkle-cdm && \
     meson compile -C _build && \
