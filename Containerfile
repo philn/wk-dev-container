@@ -50,7 +50,7 @@ RUN git config --global user.name "Philippe Normand"
 
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.24.7 && \
+    git -C gstreamer checkout 1.24.8 && \
     git -C gstreamer am /patches/gstreamer/*.patch && \
     meson setup --prefix=/usr \
        -Ddoc=disabled \
