@@ -38,6 +38,6 @@ then
 fi
 
 export WEBKIT_OUTPUTDIR=$WEBKIT_HOME/local-build-$PORT_LOWER/WebKitBuild
-export WEBKIT_SDK_LOCAL_DEPS="gstreamer-full"
+
 export ARGS="--$PORT_LOWER --$TYPE_LOWER"
 export EXTRA_MB_ARGS=$EXTRA_ARGS

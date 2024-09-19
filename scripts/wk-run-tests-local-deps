@@ -4,4 +4,10 @@
 
 . $WEBKIT_HOME/local-test-options.sh
 
+if [ -z "$WEBKIT_SDK_LOCAL_DEPS" ]
+then
+    echo "Please set WEBKIT_SDK_LOCAL_DEPS"
+    exit 1
+fi
+
 run-webkit-tests $ARGS "$@"
