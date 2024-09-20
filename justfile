@@ -1,18 +1,18 @@
 
 tag := "wk-dev:f40"
-default_image := "ghcr.io/philn"
+default_registry := "ghcr.io/philn"
 default_archive := "wk-dev-container.tar"
 
 build:
   podman pull registry.fedoraproject.org/fedora-toolbox:40
   podman build -t {{tag}} .
 
-push image=default_image:
-  podman push {{tag}} {{image}}/{{tag}}
+push registry=default_registry:
+  podman push {{tag}} {{registry}}/{{tag}}
 
-pull image=default_image:
-  podman pull {{image}}/{{tag}}
-  ./wk-bx -u --image {{image}}
+pull registry=default_registry:
+  podman pull {{registry}}/{{tag}}
+  ./wk-bx -u --image {{registry}}
   podman image prune -a -f
 
 export archive=default_archive: build
