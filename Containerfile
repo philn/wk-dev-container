@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-toolbox:40
+FROM registry.fedoraproject.org/fedora-toolbox:41
 
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
@@ -12,6 +12,9 @@ ENV WEBKIT_ENABLE_DEBUG_PERMISSIONS_IN_SANDBOX=1
 RUN dnf install -y \
     "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
     "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+
+# libwpe/wpebackend-fdo are not packaged in Fedora anymore.
+RUN dnf copr enable -y philn/wpewebkit
 
 COPY packages/ /packages/
 RUN dnf -y install $(<packages/build-deps)

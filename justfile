@@ -1,10 +1,10 @@
 
-tag := "wk-dev:f40"
+tag := "wk-dev:f41"
 default_registry := "ghcr.io/philn"
 default_archive := "wk-dev-container.tar"
 
 build:
-  podman pull registry.fedoraproject.org/fedora-toolbox:40
+  podman pull registry.fedoraproject.org/fedora-toolbox:41
   podman build -t {{tag}} .
 
 push registry=default_registry:
