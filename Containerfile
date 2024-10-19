@@ -160,5 +160,5 @@ RUN wget https://github.com/clangd/clangd/releases/download/$CLANGD_TOOLS_VERSIO
     rm -fr clangd-linux-$CLANGD_TOOLS_VERSION.zip
 
 RUN dnf clean all
-RUN rm -rf /var/cache/dnf /var/log/dnf* /scripts/ /patches/
+RUN rm -rf /var/cache/dnf /var/log/dnf* /scripts/ /patches/ /packages /clang*
 RUN rm -f /var/lib/dnf/history.*
