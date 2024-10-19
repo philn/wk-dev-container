@@ -10,4 +10,4 @@ tar xf gst-plugin-$NAME-$VERSION.crate
 pushd gst-plugin-$NAME-$VERSION
 cargo cinstall --prefix=/usr --libdir=$GST_PLUGINS_DIR
 popd
-rm -fr gst-plugin-$NAME-$VERSION
+rm -fr gst-plugin-$NAME-$VERSION gst-plugin-$NAME-$VERSION.crate
