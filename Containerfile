@@ -142,7 +142,6 @@ RUN wget $RUSTUP_URL && \
     chmod +x rustup-init && \
     ./rustup-init -y --no-modify-path --profile minimal --default-toolchain $RUST_VERSION && \
     rm rustup-init && \
-    chmod -R a+w $RUSTUP_HOME $CARGO_HOME && \
     source "$CARGO_HOME/env"
 
 RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
