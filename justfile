@@ -5,7 +5,7 @@ default_archive := "wk-dev-container.tar"
 
 build:
   podman pull registry.fedoraproject.org/fedora-toolbox:41
-  podman build -t {{tag}} .
+  podman build -t {{tag}} --security-opt seccomp=unconfined .
 
 push registry=default_registry:
   podman push {{tag}} {{registry}}/{{tag}}
