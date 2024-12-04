@@ -118,7 +118,7 @@ RUN git clone https://github.com/ianlancetaylor/libbacktrace && \
     rm -fr libbacktrace
 
 ARG RUSTUP_VERSION=1.27.0
-ARG RUST_VERSION=1.80.0
+ARG RUST_VERSION=1.83.0
 ARG RUST_ARCH="x86_64-unknown-linux-gnu"
 ARG RUSTUP_URL=https://static.rust-lang.org/rustup/archive/$RUSTUP_VERSION/$RUST_ARCH/rustup-init
 RUN wget $RUSTUP_URL && \
