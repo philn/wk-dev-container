@@ -9,6 +9,7 @@ capnproto-devel
 clang
 cmake
 enchant-devel
+expat-devel
 flex
 g++
 gcc
