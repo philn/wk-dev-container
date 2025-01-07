@@ -36,7 +36,7 @@ RUN git config --global user.name "Philippe Normand"
 
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.24.10 && \
+    git -C gstreamer checkout 1.24.11 && \
     git -C gstreamer am /patches/gstreamer/*.patch && \
     meson setup --prefix=/usr \
        -Ddoc=disabled \
@@ -134,10 +134,10 @@ RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
 COPY scripts/ /scripts/
 
 RUN cargo install cargo-c
-RUN /scripts/install-gst-plugins-rs.sh audiofx 0.13.3
-RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.13.3
-RUN /scripts/install-gst-plugins-rs.sh rtp 0.13.3
-RUN /scripts/install-gst-plugins-rs.sh dav1d 0.13.2
+RUN /scripts/install-gst-plugins-rs.sh audiofx 0.13.4
+RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.13.4
+RUN /scripts/install-gst-plugins-rs.sh rtp 0.13.4
+RUN /scripts/install-gst-plugins-rs.sh dav1d 0.13.4
 RUN /scripts/install-gst-plugins-rs.sh fmp4 0.13.3
 
 RUN cargo install sccache@0.9.1
