@@ -48,11 +48,7 @@ def update(namespace):
     sccache_credentials = fetch_sccache_credentials(namespace)
     if namespace.sccache_token:
         sccache_credentials['auth-token'] = namespace.sccache_token
-    try:
-        run('podman', 'stop', namespace.name)
-    except:
-        pass
-    run('toolbox', 'rm', namespace.name)
+    run('toolbox', 'rm', '-f', namespace.name)
     run('podman', 'image', 'prune', '-a', '-f')
     run('toolbox', 'create', '-y', '-c', namespace.name, '--image', f'{namespace.image}/wk-dev:f{namespace.version}', capture_output=False)
     if sccache_credentials.get('auth-token'):
