@@ -11,7 +11,6 @@ push registry=default_registry:
   podman push {{tag}} {{registry}}/{{tag}}
 
 pull registry=default_registry:
-  podman pull {{registry}}/{{tag}}
   ./wk-bx -u --image {{registry}}
   podman image prune -a -f
 
