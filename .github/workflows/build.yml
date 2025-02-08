@@ -2,7 +2,7 @@ name: build
 on:
   push:
     branches: [ main ]
-    paths-ignore: [ docs/*, README.md, justfile]
+    paths-ignore: [ docs/*, README.md, justfile, wk-bx]
   pull_request:
     branches: [ main ]
 defaults:
