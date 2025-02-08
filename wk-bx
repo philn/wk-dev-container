@@ -13,12 +13,13 @@ CONTAINER_PATH="localhost"
 IMAGE_NAME="wk-dev-f"
 CONTAINER_VERSION=41
 
-def run(*args, in_container=None, dry_run=False, capture_output=True):
+def run(*args, in_container=None, dry_run=False, capture_output=True, verbose=False):
     if in_container:
         cmdline = f'toolbox run -c {in_container}'.split() + list(args)
     else:
         cmdline = args
-    print("Running %s" % " ".join(cmdline))
+    if verbose:
+        print("Running %s" % " ".join(cmdline))
     if dry_run:
         return
     proc = subprocess.run(cmdline, capture_output=capture_output, text=True)
@@ -48,9 +49,10 @@ def update(namespace):
     sccache_credentials = fetch_sccache_credentials(namespace)
     if namespace.sccache_token:
         sccache_credentials['auth-token'] = namespace.sccache_token
-    run('toolbox', 'rm', '-f', namespace.name)
-    run('podman', 'image', 'prune', '-a', '-f')
-    run('toolbox', 'create', '-y', '-c', namespace.name, '--image', f'{namespace.image}/wk-dev:f{namespace.version}', capture_output=False)
+    verbose = namespace.verbose
+    run('toolbox', 'rm', '-f', namespace.name, verbose=verbose)
+    run('podman', 'image', 'prune', '-a', '-f', verbose=verbose)
+    run('toolbox', 'create', '-y', '-c', namespace.name, '--image', f'{namespace.image}/wk-dev:f{namespace.version}', capture_output=False, verbose=verbose)
     if sccache_credentials.get('auth-token'):
         template = run('cat', '/sccache/sccache.toml.in', in_container=namespace.name)
         with tempfile.NamedTemporaryFile() as tmpfile:
@@ -58,7 +60,7 @@ def update(namespace):
                           .replace('@@auth_token@@', sccache_credentials['auth-token'])\
                           .encode('utf-8'))
             tmpfile.flush()
-            run('cp', tmpfile.name, '/sccache/sccache.toml', in_container=namespace.name)
+            run('cp', tmpfile.name, '/sccache/sccache.toml', in_container=namespace.name, verbose=verbose)
     else:
         print('sccache auth token not provided. sccache configuration was skipped')
 
@@ -72,6 +74,7 @@ def main(args):
     general.add_argument("-i", "--image", dest="image", default=CONTAINER_PATH,
                          help=f"Container image path (default: {CONTAINER_PATH})")
     general.add_argument("-u", "--update", dest="update", action="store_true", help="Update the thing")
+    general.add_argument("--verbose", dest="verbose", action="store_true", default=False, help="Enable verbose output")
 
     distributed_build_options = parser.add_argument_group("Distributed building")
     distributed_build_options.add_argument("-t", "--sccache-token", dest="sccache_token",
