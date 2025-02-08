@@ -134,6 +134,7 @@ RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
 COPY scripts/ /scripts/
 
 RUN cargo install flamegraph
+RUN cargo install --locked samply
 
 RUN cargo install cargo-c
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.13.4
