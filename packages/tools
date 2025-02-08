@@ -13,6 +13,7 @@ graphviz
 gstreamer1-plugins-base-tools
 heaptrack
 httpd
+inotify-tools
 iwyu
 jq
 libva-utils

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+NOW=$(date "+%Y-%m-%d@%H:%M:%S")
+DST="$WEBKIT_HOME/perf.$NOW.perfdata"
+SVG_DST="$WEBKIT_HOME/flamegraph-$NOW.svg"
+
+perf record -g -o $DST $PERF_OPTIONS $@
+
+flamegraph --perfdata $DST -o $SVG_DST $FLAMEGRAPH_OPTIONS
+echo "Flamegraph for $DST written to $SVG_DST"
