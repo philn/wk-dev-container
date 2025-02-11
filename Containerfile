@@ -117,6 +117,15 @@ RUN git clone https://github.com/ianlancetaylor/libbacktrace && \
     popd && \
     rm -fr libbacktrace
 
+RUN pip install pandas plotly kaleido
+
+# Needed for JSON support. Remove this when bumping to f42
+RUN git clone https://github.com/sysstat/sysstat/ && \
+    pushd sysstat && \
+    ./configure --prefix=/usr && make && make install && \
+    popd && \
+    rm -fr sysstat
+
 ARG RUSTUP_VERSION=1.27.0
 ARG RUST_VERSION=1.83.0
 ARG RUST_ARCH="x86_64-unknown-linux-gnu"

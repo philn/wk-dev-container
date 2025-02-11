@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Check if PID is provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <pid>"
+    exit 1
+fi
+
+PID=$1
+
+NOW=$(date "+%Y-%m-%d@%H:%M:%S")
+JSON_FILE="$WEBKIT_HOME/pidstat-$NOW.json"
+
+echo "Writing stats to $JSON_FILE"
+pidstat -o JSON -p $PID -u -I $PIDSTAT_OPTIONS 5 > $JSON_FILE
