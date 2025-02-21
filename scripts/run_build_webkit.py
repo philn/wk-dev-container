@@ -101,11 +101,16 @@ class Builder:
         self._makeargs = []
 
     def numberOfCPUs(self):
-        for key in ("SCCACHE_NUM_CPUS", "NUMBER_OF_PROCESSORS"):
+        use_sccache = int(os.environ.get('WEBKIT_USE_SCCACHE', '0'))
+        if use_sccache:
             try:
-                return int(os.environ[key])
-            except:
-                continue
+                return int(os.environ["SCCACHE_NUM_CPUS"])
+            except KeyError:
+                pass
+        try:
+            return int(os.environ["NUMBER_OF_PROCESSORS"])
+        except KeyError:
+            pass
         return None
 
     def maxCPULoad(self):
