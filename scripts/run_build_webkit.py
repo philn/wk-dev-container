@@ -17,6 +17,7 @@
 # Boston, MA 02110-1301, USA.
 
 from __future__ import print_function
+import json
 import logging
 import optparse
 import os
@@ -153,6 +154,13 @@ class Builder:
 
         sccache_enabled = self.sccache_enabled()
         if sccache_enabled:
+            scheduler_status_output = self.execute(['sccache', '--dist-status'], capture_output=True)
+            scheduler_status = json.loads(scheduler_status_output)
+            if 'NotConnected' in scheduler_status.keys():
+                self.execute(["sccache", "--stop-server"])
+                print('SCCache is enabled but the scheduler is down. Bailing out.')
+                return -2
+
             sccache_env = os.environ.copy()
             sccache_env.update({"SCCACHE_START_SERVER": "1"})
             self.execute(["sccache"], env=sccache_env)
@@ -270,10 +278,16 @@ class Builder:
         except KeyError:
             return os.path.join(self._baseProductDir(), self._options.configuration)
 
-    def execute(self, args, cwd=None, env=None, check=False):
+    def execute(self, args, cwd=None, env=None, check=False, capture_output=False):
         _log.debug(" ".join(args))
         if check:
             return subprocess.check_call(args, cwd=cwd, env=env)
+        if capture_output:
+            proc = subprocess.run(args, capture_output=capture_output, text=True)
+            if proc.returncode != 0:
+                raise Exception(proc.returncode)
+            return proc.stdout.strip()
+
         return subprocess.call(args, cwd=cwd, env=env)
 
     def _generateBuildSystemFromCMakeProject(self, force=False):
