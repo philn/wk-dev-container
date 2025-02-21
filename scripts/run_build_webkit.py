@@ -100,9 +100,11 @@ class Builder:
         self._env = runtime_environment()
         self._makeargs = []
 
+    def sccache_enabled(self):
+        return int(os.environ.get('WEBKIT_USE_SCCACHE', '0'))
+
     def numberOfCPUs(self):
-        use_sccache = int(os.environ.get('WEBKIT_USE_SCCACHE', '0'))
-        if use_sccache:
+        if self.sccache_enabled():
             try:
                 return int(os.environ["SCCACHE_NUM_CPUS"])
             except KeyError:
@@ -149,7 +151,7 @@ class Builder:
             if maxCPULoad is not None and maxCPULoad > 0:
                 self._options.makeargs.append("-l%d" % maxCPULoad)
 
-        sccache_enabled = 'WEBKIT_USE_SCCACHE' in os.environ.keys()
+        sccache_enabled = self.sccache_enabled()
         if sccache_enabled:
             sccache_env = os.environ.copy()
             sccache_env.update({"SCCACHE_START_SERVER": "1"})
