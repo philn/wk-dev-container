@@ -156,7 +156,7 @@ class Builder:
         if sccache_enabled:
             scheduler_status_output = self.execute(['sccache', '--dist-status'], capture_output=True)
             scheduler_status = json.loads(scheduler_status_output)
-            if 'NotConnected' in scheduler_status.keys():
+            if 'NotConnected' in scheduler_status.keys() or 'Disabled' in scheduler_status.keys():
                 self.execute(["sccache", "--stop-server"])
                 print('SCCache is enabled but the scheduler is down. Bailing out.')
                 return -2
