@@ -203,6 +203,8 @@ class Builder:
     def _cmakeArgsFromConfig(self, config):
         def process_section(name):
             args = []
+            if name not in config.keys():
+                return args
             for (name, value) in config[name].items():
                 arg = self._cmakeArgFromOption(name, value)
                 if arg:
