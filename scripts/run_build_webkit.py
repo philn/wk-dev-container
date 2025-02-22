@@ -42,6 +42,8 @@ def main(argv):
     groups = [("Build options", [
         optparse.make_option("--cmakeargs", action="append", default=[],
                              help=("One or more optional CMake flags (e.g. --cmakeargs=\"-DFOO=bar -DCMAKE_PREFIX_PATH=/usr/local\"")),
+        optparse.make_option("--cmake-build-type", default=None,
+                             help=("CMAKE_BUILD_TYPE to use, overrides --release/--debug options")),
         optparse.make_option("--no-experimental-features", action="store_true", default=False,
                              help=("Disable experimental CMake features. Default: False")),
         optparse.make_option("--no-developer-mode", action="store_true", default=False,
@@ -314,9 +316,12 @@ class Builder:
 
     def _cmakeConfigure(self, build_path):
         port = self._cmakePortName()
+        cmake_build_type = self._options.cmake_build_type
+        if not cmake_build_type:
+            cmake_build_type = self._options.configuration
         cmd = ["cmake", "-GNinja", "-S", SOURCE_DIRECTORY, "-B", build_path, f"-DPORT={port}",
                "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
-               f"-DCMAKE_BUILD_TYPE={self._options.configuration}"]
+               f"-DCMAKE_BUILD_TYPE={cmake_build_type}"]
 
         if not self._options.no_developer_mode:
             cmd.append("-DDEVELOPER_MODE=ON")
@@ -327,7 +332,7 @@ class Builder:
         self.execute(cmd, env=self._env)
 
     def _buildCMakeGeneratedProject(self):
-        cmd = ["cmake", "--build", self._buildDir(), "--config", self._options.configuration]
+        cmd = ["cmake", "--build", self._buildDir()]
         if self._makeargs:
             cmd.extend(self._makeargs)
         print(f"Running {' '.join(cmd)}")
