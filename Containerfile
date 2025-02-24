@@ -127,7 +127,7 @@ RUN git clone https://github.com/sysstat/sysstat/ && \
     rm -fr sysstat
 
 ARG RUSTUP_VERSION=1.27.0
-ARG RUST_VERSION=1.83.0
+ARG RUST_VERSION=1.85.0
 ARG RUST_ARCH="x86_64-unknown-linux-gnu"
 ARG RUSTUP_URL=https://static.rust-lang.org/rustup/archive/$RUSTUP_VERSION/$RUST_ARCH/rustup-init
 RUN wget $RUSTUP_URL && \
