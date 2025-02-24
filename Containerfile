@@ -153,7 +153,7 @@ RUN /scripts/install-gst-plugins-rs.sh dav1d 0.13.4
 RUN /scripts/install-gst-plugins-rs.sh fmp4 0.13.3
 RUN /scripts/install-gst-plugins-rs.sh tracers 0.13.4
 
-RUN cargo install sccache@0.9.1
+RUN cargo install sccache@0.10.0
 RUN /scripts/prepare-sccache.sh
 
 RUN /scripts/install-build-webkit.sh
