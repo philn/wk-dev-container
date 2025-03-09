@@ -53,6 +53,7 @@ def runtime_environment():
     command = ['meson', 'devenv', '-C', build_dir, '--dump']
     proc = subprocess.run(command, capture_output=True, text=True)
     if proc.returncode != 0:
+        print(proc.stderr)
         raise Exception(proc.returncode)
     local_env = proc.stdout.strip()
 
