@@ -169,6 +169,7 @@ class Builder:
 
         if 'WEBKIT_SDK_LOCAL_DEPS' in os.environ.keys():
             self._buildLocalDeps()
+            self._env = runtime_environment()
 
         try:
             return self._buildCMakeProject()
