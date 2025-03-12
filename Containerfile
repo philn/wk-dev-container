@@ -30,14 +30,12 @@ RUN ln -s /usr/bin/flatpak-xdg-open /usr/bin/xdg-open
 
 RUN dnf -y builddep gstreamer1-plugins-bad-free
 
-COPY patches/ /patches/
 RUN git config --global user.email "philn@igalia.com"
 RUN git config --global user.name "Philippe Normand"
 
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
-RUN git clone -b 1.24 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.24.12 && \
-    git -C gstreamer am /patches/gstreamer/*.patch && \
+RUN git clone -b 1.26 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
+    git -C gstreamer checkout 1.26.0 && \
     meson setup --prefix=/usr \
        -Ddoc=disabled \
        -Dtests=disabled \
