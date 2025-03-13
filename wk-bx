@@ -51,7 +51,8 @@ def update(namespace):
         sccache_credentials['auth-token'] = namespace.sccache_token
     verbose = namespace.verbose
     run('toolbox', 'rm', '-f', namespace.name, verbose=verbose)
-    run('podman', 'image', 'prune', '-a', '-f', verbose=verbose)
+    if not namespace.image.startswith('localhost'):
+        run('podman', 'image', 'prune', '-a', '-f', verbose=verbose)
     run('toolbox', 'create', '-y', '-c', namespace.name, '--image', f'{namespace.image}/wk-dev:f{namespace.version}', capture_output=False, verbose=verbose)
     if sccache_credentials.get('auth-token'):
         template = run('cat', '/sccache/sccache.toml.in', in_container=namespace.name)
