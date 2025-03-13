@@ -33,6 +33,17 @@ RUN dnf -y builddep gstreamer1-plugins-bad-free
 RUN git config --global user.email "philn@igalia.com"
 RUN git config --global user.name "Philippe Normand"
 
+# Rust required for gst-ptp-helper and dots-viewer.
+ARG RUSTUP_VERSION=1.27.0
+ARG RUST_VERSION=1.85.0
+ARG RUST_ARCH="x86_64-unknown-linux-gnu"
+ARG RUSTUP_URL=https://static.rust-lang.org/rustup/archive/$RUSTUP_VERSION/$RUST_ARCH/rustup-init
+RUN wget $RUSTUP_URL && \
+    chmod +x rustup-init && \
+    ./rustup-init -y --no-modify-path --profile minimal --default-toolchain $RUST_VERSION && \
+    rm rustup-init && \
+    source "$CARGO_HOME/env"
+
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.26 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
     git -C gstreamer checkout 1.26.0 && \
@@ -123,16 +134,6 @@ RUN git clone https://github.com/sysstat/sysstat/ && \
     ./configure --prefix=/usr && make && make install && \
     popd && \
     rm -fr sysstat
-
-ARG RUSTUP_VERSION=1.27.0
-ARG RUST_VERSION=1.85.0
-ARG RUST_ARCH="x86_64-unknown-linux-gnu"
-ARG RUSTUP_URL=https://static.rust-lang.org/rustup/archive/$RUSTUP_VERSION/$RUST_ARCH/rustup-init
-RUN wget $RUSTUP_URL && \
-    chmod +x rustup-init && \
-    ./rustup-init -y --no-modify-path --profile minimal --default-toolchain $RUST_VERSION && \
-    rm rustup-init && \
-    source "$CARGO_HOME/env"
 
 RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
     make -C webkitgtk-test-dicts DESTDIR=/usr/share install && \
