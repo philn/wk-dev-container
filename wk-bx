@@ -11,7 +11,7 @@ DEFAULT_SCCACHE_SCHEDULER='https://sccache.igalia.com'
 
 CONTAINER_PATH="localhost"
 IMAGE_NAME="wk-dev-f"
-CONTAINER_VERSION=41
+CONTAINER_VERSION=42
 
 def run(*args, in_container=None, dry_run=False, capture_output=True, verbose=False):
     if in_container:

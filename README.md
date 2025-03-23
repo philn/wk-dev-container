@@ -19,9 +19,9 @@ IDE runs in flatpak you can wrap it in another script like this (YMMV):
 ```sh
 #!/bin/sh
 set -eu
-flatpak-spawn --host podman start wk-dev-f41
+flatpak-spawn --host podman start wk-dev-f42
 exec flatpak-spawn --host podman exec -e WEBKIT_HOME=$HOME/WebKit -i -u phil \
-     wk-dev-f41 webkit-clangd --enable-config --gtk "$@"
+     wk-dev-f42 webkit-clangd --enable-config --gtk "$@"
 ```
 
 Or, for IDEs not running in flatpak (untested):
@@ -29,9 +29,9 @@ Or, for IDEs not running in flatpak (untested):
 ```sh
 #!/bin/sh
 set -eu
-podman start wk-dev-f41
+podman start wk-dev-f42
 exec podman exec -e WEBKIT_HOME=$HOME/WebKit -i -u phil \
-     wk-dev-f41 webkit-clangd --enable-config --gtk "$@"
+     wk-dev-f42 webkit-clangd --enable-config --gtk "$@"
 ```
 
 # Local build of the container
@@ -39,7 +39,7 @@ exec podman exec -e WEBKIT_HOME=$HOME/WebKit -i -u phil \
 If you prefer to build the container yourself:
 
 ```sh
-$ podman build -t wk-dev:f41 .
+$ podman build -t wk-dev:f42 .
 $ ./wk-bx -u
 ```
 
@@ -49,7 +49,7 @@ $ ./wk-bx -u
 `WEBKIT_HOME` should point to your WebKit checkout. Can be set in a `.envrc` there for instance.
 
 ```sh
-toolbox enter -c wk-dev-f41
+toolbox enter -c wk-dev-f42
 export WEBKIT_HOME=$HOME/WebKit
 cd $WEBKIT_HOME
 b-webkit --wpe
