@@ -146,11 +146,11 @@ RUN cargo install --locked samply
 
 RUN cargo install cargo-c
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.13.4
-RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.13.4
-RUN /scripts/install-gst-plugins-rs.sh rtp 0.13.4
+RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.13.5
+RUN /scripts/install-gst-plugins-rs.sh rtp 0.13.5
 RUN /scripts/install-gst-plugins-rs.sh dav1d 0.13.4
-RUN /scripts/install-gst-plugins-rs.sh fmp4 0.13.3
-RUN /scripts/install-gst-plugins-rs.sh tracers 0.13.4
+RUN /scripts/install-gst-plugins-rs.sh fmp4 0.13.5
+RUN /scripts/install-gst-plugins-rs.sh tracers 0.13.5
 
 RUN cargo install sccache@0.10.0
 RUN /scripts/prepare-sccache.sh
