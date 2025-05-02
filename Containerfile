@@ -129,13 +129,6 @@ RUN git clone https://github.com/ianlancetaylor/libbacktrace && \
 
 RUN pip install pandas plotly kaleido
 
-# Needed for JSON support. Remove this when bumping to f42
-RUN git clone https://github.com/sysstat/sysstat/ && \
-    pushd sysstat && \
-    ./configure --prefix=/usr && make && make install && \
-    popd && \
-    rm -fr sysstat
-
 RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
     make -C webkitgtk-test-dicts DESTDIR=/usr/share install && \
     rm -fr webkitgtk-test-dicts
