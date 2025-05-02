@@ -87,8 +87,13 @@ def run(options, args, logging_stream):
         return 0
     if exitCode == 0:
         resultStr = "is now built! 🎉"
-        is_debug = "--debug" if options.configuration == "Debug" else ""
-        extra = f"\nTo run MiniBrowser with this newly-built code, use\nTools/Scripts/run-minibrowser --{options.platform} {is_debug}"
+        if builder.isLocalDepsBuild():
+            is_debug = "-t debug" if options.configuration == "Debug" else ""
+            cmd = f"wk-run-local-deps -p {options.platform} {is_debug}"
+        else:
+            is_debug = "--debug" if options.configuration == "Debug" else ""
+            cmd = f"Tools/Scripts/run-minibrowser --{options.platform} {is_debug}"
+        extra = f"\nTo run MiniBrowser with this newly-built code, use\n{cmd}"
     else:
         resultStr = "build failed. 😟"
         extra = ""
@@ -167,7 +172,7 @@ class Builder:
             sccache_env.update({"SCCACHE_START_SERVER": "1"})
             self.execute(["sccache"], env=sccache_env)
 
-        if 'WEBKIT_SDK_LOCAL_DEPS' in os.environ.keys():
+        if self.isLocalDepsBuild():
             self._buildLocalDeps()
             self._env = runtime_environment()
 
@@ -176,6 +181,9 @@ class Builder:
         finally:
             if sccache_enabled:
                 self.execute(["sccache", "--stop-server"])
+
+    def isLocalDepsBuild(self):
+        return 'WEBKIT_SDK_LOCAL_DEPS' in os.environ.keys()
 
     def _buildLocalDeps(self):
         src_dir = os.path.join(SOURCE_DIRECTORY, 'Tools', 'flatpak', 'local-projects')
