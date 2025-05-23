@@ -3,9 +3,6 @@ set -xeu
 
 #export WEBKIT_HOME=$HOME/WebKit
 
-export CC=clang
-export CXX=clang++
-
 . /etc/webkit/common-local.sh
 unset WEBKIT_SDK_LOCAL_DEPS
 
