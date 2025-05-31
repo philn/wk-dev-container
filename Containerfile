@@ -48,7 +48,7 @@ RUN cargo install cargo-c
 
 RUN git clone https://github.com/ystreet/librice.git && \
     pushd librice && \
-    cargo cinstall -p librice-proto --release --prefix=/usr --libdir=/usr/lib64 && \
+    cargo cinstall -p librice-proto --release --prefix=/usr --libdir=/usr/lib64 --library-type=cdylib && \
     popd && \
     rm -fr librice
 
