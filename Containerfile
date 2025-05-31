@@ -44,6 +44,14 @@ RUN wget $RUSTUP_URL && \
     rm rustup-init && \
     source "$CARGO_HOME/env"
 
+RUN cargo install cargo-c
+
+RUN git clone https://github.com/ystreet/librice.git && \
+    pushd librice && \
+    cargo cinstall -p librice-proto --release --prefix=/usr --libdir=/usr/lib64 && \
+    popd && \
+    rm -fr librice
+
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.26 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
     git -C gstreamer checkout 1.26.2 && \
@@ -138,7 +146,6 @@ COPY scripts/ /scripts/
 RUN cargo install flamegraph
 RUN cargo install --locked samply
 
-RUN cargo install cargo-c
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.13.4
 RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.13.5
 RUN /scripts/install-gst-plugins-rs.sh rtp 0.13.5
