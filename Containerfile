@@ -117,7 +117,6 @@ RUN git clone https://github.com/ggerganov/whisper.cpp && \
     rm -fr whisper-build whisper.cpp
 
 RUN git clone http://github.com/project-spiel/libspiel && \
-    git -C libspiel checkout 5fbe776ae730d40721405cbac9b31b16ba5275e8 && \
     meson setup --prefix=/usr -Dtests=false _build libspiel && \
     meson compile -C _build && \
     meson install -C _build && \
