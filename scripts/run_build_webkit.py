@@ -191,10 +191,23 @@ class Builder:
         if not os.path.exists(os.path.join(build_dir, 'build.ninja')):
             projects = '-Dsubprojects=%s' % os.environ['WEBKIT_SDK_LOCAL_DEPS']
             options = shlex.split(os.environ.get('WEBKIT_SDK_LOCAL_DEPS_OPTIONS', ''))
+            # Meson doesn't enable sccache support if some CC/CXX env var is found... WTF.
+            env = os.environ.copy()
+            if 'CC' in env:
+                del env['CC']
+            if 'CXX' in env:
+                del env['CXX']
             args = ['meson', 'setup', projects] + options + [src_dir, build_dir]
-            self.execute(args, check=True)
+            self.execute(args, check=True, env=env)
 
-        self.execute(('meson', 'compile', '-C', build_dir), check=True)
+        compile_command = ['meson', 'compile', '-C', build_dir]
+        numberOfCPUs = self.numberOfCPUs()
+        if numberOfCPUs:
+            compile_command.extend(["-j", str(numberOfCPUs)])
+
+        env = os.environ
+        env.update({'RUSTC_WRAPPER': '/usr/local/cargo/bin/sccache'})
+        self.execute(compile_command, check=True, env=env)
 
     def _cmakeArgFromOption(self, name, value):
         value_type = type(value)
