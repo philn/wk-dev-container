@@ -186,7 +186,7 @@ class Builder:
         return 'WEBKIT_SDK_LOCAL_DEPS' in os.environ.keys()
 
     def _buildLocalDeps(self):
-        src_dir = os.path.join(SOURCE_DIRECTORY, 'Tools', 'flatpak', 'local-projects')
+        src_dir = os.path.join(SOURCE_DIRECTORY, 'local-projects')
         build_dir = os.path.join(SOURCE_DIRECTORY, 'WebKitBuild', 'deps-build')
         if not os.path.exists(os.path.join(build_dir, 'build.ninja')):
             projects = '-Dsubprojects=%s' % os.environ['WEBKIT_SDK_LOCAL_DEPS']

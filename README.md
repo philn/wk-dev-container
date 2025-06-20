@@ -63,7 +63,7 @@ run-minibrowser --wpe
 - `WEBKIT_USE_SCCACHE`: Set to `1` to enable sccache (requires valid sccache config) (optional)
 - `SCCACHE_NUM_CPUS` : Number of CPUs usable in the sccache cluster (optional)
 - `SCCACHE_CONF` : Path to sccache config, set this to `/sccache/sccache.toml` if you enabled sccache in the container (optional)
-- `WEBKIT_SDK_LOCAL_DEPS` : Comma-separated list of local subprojects to build (sourced from `Tools/flatpak/local-projects`) (optional)
+- `WEBKIT_SDK_LOCAL_DEPS` : Comma-separated list of local subprojects to build (sourced from `$WEBKIT_HOME/local-projects`) (optional, see `local-projects-examples`)
 - `WEBKIT_SDK_LOCAL_DEPS_OPTIONS`: Custom Meson options for local subprojects (optional)
 - `WEBKIT_OUTPUTDIR`: Custom WebKit build output directory (optional)
 - `CC`: C compiler, defaults to `gcc` (optional)
