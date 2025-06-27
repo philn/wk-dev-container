@@ -16,6 +16,9 @@ RUN dnf install -y \
 # libwpe/wpebackend-fdo are not packaged in Fedora anymore.
 RUN dnf copr enable -y philn/wpewebkit
 
+# Remove useless vlc stuff
+RUN dnf -y remove vlc-libs
+
 COPY packages/ /packages/
 RUN dnf -y install $(<packages/build-deps)
 RUN dnf -y install $(<packages/multimedia-deps)
