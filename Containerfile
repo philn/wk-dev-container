@@ -60,6 +60,7 @@ RUN git clone https://github.com/ystreet/librice.git && \
 RUN git clone -b 1.26 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
     git -C gstreamer checkout 1.26.3 && \
     meson setup --prefix=/usr \
+       -Dpackage-origin=wk-dev-container \
        -Ddoc=disabled \
        -Dtests=disabled \
        -Dges=disabled \
