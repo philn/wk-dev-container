@@ -15,7 +15,7 @@ CONTAINER_VERSION=42
 
 def run(*args, in_container=None, dry_run=False, capture_output=True, verbose=False):
     if in_container:
-        cmdline = f'toolbox run -c {in_container}'.split() + list(args)
+        cmdline = f'distrobox enter --name {in_container} --'.split() + list(args)
     else:
         cmdline = args
     if verbose:
@@ -50,10 +50,10 @@ def update(namespace):
     if namespace.sccache_token:
         sccache_credentials['auth-token'] = namespace.sccache_token
     verbose = namespace.verbose
-    run('toolbox', 'rm', '-f', namespace.name, verbose=verbose)
+    run('distrobox', 'rm', '-f', namespace.name, verbose=verbose)
     if not namespace.image.startswith('localhost'):
         run('podman', 'image', 'prune', '-a', '-f', verbose=verbose)
-    run('toolbox', 'create', '-y', '-c', namespace.name, '--image', f'{namespace.image}/wk-dev:f{namespace.version}', capture_output=False, verbose=verbose)
+    run('distrobox', 'create', '-Y', '-n', namespace.name, '--image', f'{namespace.image}/wk-dev:f{namespace.version}', capture_output=False, verbose=verbose)
     if sccache_credentials.get('auth-token'):
         template = run('cat', '/sccache/sccache.toml.in', in_container=namespace.name)
         with tempfile.NamedTemporaryFile() as tmpfile:
