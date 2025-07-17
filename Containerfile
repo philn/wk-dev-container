@@ -58,7 +58,7 @@ RUN git clone https://github.com/ystreet/librice.git && \
 
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.26 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.26.3 && \
+    git -C gstreamer checkout 1.26.4 && \
     meson setup --prefix=/usr \
        -Dpackage-origin=wk-dev-container \
        -Ddoc=disabled \
