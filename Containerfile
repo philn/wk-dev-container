@@ -49,7 +49,7 @@ RUN wget $RUSTUP_URL && \
 
 RUN cargo install cargo-c
 
-RUN git clone https://github.com/ystreet/librice.git && \
+RUN git clone --revision=737dfd1047438b8d49cddf4c4e8408acf09e4ebe https://github.com/ystreet/librice.git && \
     pushd librice && \
     cargo cinstall -p librice-proto --release --prefix=/usr --libdir=/usr/lib64 --library-type=cdylib && \
     cargo cinstall -p librice-io --release --prefix=/usr --libdir=/usr/lib64 --library-type=cdylib && \
