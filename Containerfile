@@ -39,7 +39,7 @@ RUN git config --global user.name "Philippe Normand"
 
 # Rust required for gst-ptp-helper and dots-viewer.
 ARG RUSTUP_VERSION=1.28.2
-ARG RUST_VERSION=1.88.0
+ARG RUST_VERSION=1.89.0
 ARG RUST_ARCH="x86_64-unknown-linux-gnu"
 ARG RUSTUP_URL=https://static.rust-lang.org/rustup/archive/$RUSTUP_VERSION/$RUST_ARCH/rustup-init
 RUN wget $RUSTUP_URL && \
