@@ -48,6 +48,10 @@ RUN wget $RUSTUP_URL && \
     rm rustup-init && \
     source "$CARGO_HOME/env"
 
+ARG RUST_ANALYZER_VERSION=2025-08-04
+RUN curl -L https://github.com/rust-lang/rust-analyzer/releases/download/$RUST_ANALYZER_VERSION/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > /usr/local/bin/rust-analyzer && \
+    chmod +x /usr/local/bin/rust-analyzer
+
 RUN cargo install cargo-c
 
 RUN git clone --revision=737dfd1047438b8d49cddf4c4e8408acf09e4ebe https://github.com/ystreet/librice.git && \

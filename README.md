@@ -24,7 +24,7 @@ exec flatpak-spawn --host podman exec -e WEBKIT_HOME=$HOME/WebKit -i -u phil \
      wk-dev-f42 webkit-clangd --enable-config --gtk "$@"
 ```
 
-Or, for IDEs not running in flatpak (untested):
+Or, for IDEs not running in flatpak:
 
 ```sh
 #!/bin/sh
@@ -32,6 +32,15 @@ set -eu
 podman start wk-dev-f42
 exec podman exec -e WEBKIT_HOME=$HOME/WebKit -i -u phil \
      wk-dev-f42 webkit-clangd --enable-config --gtk "$@"
+```
+
+A similar approach can be used for setting up rust-analyzer:
+
+```sh
+#!/bin/sh
+set -eu
+podman start wk-dev-f42
+exec podman exec -i -u phil wk-dev-f42 /usr/local/bin/rust-analyzer "$@"
 ```
 
 # Local build of the container
