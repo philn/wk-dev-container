@@ -181,6 +181,9 @@ RUN wget https://github.com/clangd/clangd/releases/download/$CLANGD_TOOLS_VERSIO
     mv clangd_$CLANGD_TOOLS_VERSION/* /usr/local/clangd && \
     rm -fr clangd-linux-$CLANGD_TOOLS_VERSION.zip
 
+RUN rm -fr /usr/local/cargo/registry/* && \
+    chmod -R a+w /usr/local/cargo/registry/
+
 RUN dnf clean all
 RUN rm -rf /var/cache/dnf /var/log/dnf* /scripts/ /patches/ /packages /clang*
 RUN rm -f /var/lib/dnf/history.*
