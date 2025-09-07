@@ -48,7 +48,7 @@ RUN wget $RUSTUP_URL && \
     rm rustup-init && \
     source "$CARGO_HOME/env"
 
-ARG RUST_ANALYZER_VERSION=2025-08-04
+ARG RUST_ANALYZER_VERSION=2025-08-25
 RUN curl -L https://github.com/rust-lang/rust-analyzer/releases/download/$RUST_ANALYZER_VERSION/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > /usr/local/bin/rust-analyzer && \
     chmod +x /usr/local/bin/rust-analyzer
 
