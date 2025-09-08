@@ -54,7 +54,7 @@ RUN curl -L https://github.com/rust-lang/rust-analyzer/releases/download/$RUST_A
 
 RUN cargo install cargo-c
 
-RUN git clone --revision=9805b2b946bb457820e2adc535e6bc0428a9ac84 https://github.com/ystreet/librice.git && \
+RUN git clone --revision=11090078e5882ef0f8e62108198bb28538135b2f https://github.com/ystreet/librice.git && \
     pushd librice && \
     cargo cinstall -p rice-proto --release --prefix=/usr --libdir=/usr/lib64 --library-type=cdylib && \
     cargo cinstall -p rice-io --release --prefix=/usr --libdir=/usr/lib64 --library-type=cdylib && \
