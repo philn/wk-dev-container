@@ -138,6 +138,12 @@ RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
     meson install -C _build && \
     rm -fr _build sparkle-cdm
 
+RUN git clone https://gitlab.gnome.org/feaneron/wkrictl.git && \
+    meson setup --prefix=/usr _build wkrictl && \
+    meson compile -C _build && \
+    meson install -C _build && \
+    rm -fr _build wkrictl
+
 RUN git clone https://github.com/ianlancetaylor/libbacktrace && \
     pushd libbacktrace && \
     ./configure --enable-shared --prefix=/usr && make && make install && \
