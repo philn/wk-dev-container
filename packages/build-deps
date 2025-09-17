@@ -26,7 +26,6 @@ lcms2-devel
 libXt-devel
 libatomic
 libavif-devel
-libdex-devel
 libepoxy-devel
 liberation-fonts
 libevent-devel
@@ -76,7 +75,6 @@ rubygem-highline
 rubygem-json
 rubygem-webrick
 sqlite-devel
-sysprof-devel
 systemd-devel
 unifdef
 wayland-devel
