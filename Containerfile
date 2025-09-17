@@ -6,6 +6,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     DEBUGINFOD_URLS=https://debuginfod.fedoraproject.org \
     QT_QPA_PLATFORM=wayland
 
+ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/host/run/dbus/system_bus_socket
 ENV WEBKIT_ENABLE_DEBUG_PERMISSIONS_IN_SANDBOX=1
 ENV WEBKIT_BUILD_USE_SYSTEM_LIBRARIES=1
 
