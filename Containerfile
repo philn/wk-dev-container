@@ -157,11 +157,11 @@ RUN cargo install flamegraph
 RUN cargo install --locked samply
 
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.14.0
-RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.14.0
-RUN /scripts/install-gst-plugins-rs.sh rtp 0.14.0
+RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.14.2
+RUN /scripts/install-gst-plugins-rs.sh rtp 0.14.2
 RUN /scripts/install-gst-plugins-rs.sh dav1d 0.14.0
 RUN /scripts/install-gst-plugins-rs.sh fmp4 0.14.0
-RUN /scripts/install-gst-plugins-rs.sh tracers 0.14.0
+RUN /scripts/install-gst-plugins-rs.sh tracers 0.14.1
 
 RUN cargo install sccache@0.10.0
 RUN /scripts/prepare-sccache.sh
