@@ -12,6 +12,7 @@ gdb-gdbserver
 graphviz
 gstreamer1-plugins-base-tools
 heaptrack
+hotspot
 httpd
 inotify-tools
 iwyu
