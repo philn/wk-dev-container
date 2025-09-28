@@ -1,5 +1,7 @@
 FROM registry.fedoraproject.org/fedora-toolbox:42
 
+ARG GIT_HASH
+
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:/usr/local/clangd-indexer/bin:/usr/local/clangd/bin:$PATH \
@@ -152,6 +154,8 @@ RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
     rm -fr webkitgtk-test-dicts
 
 COPY scripts/ /scripts/
+
+RUN /scripts/write-release-infos.sh
 
 RUN cargo install flamegraph
 RUN cargo install --locked samply
