@@ -22,6 +22,7 @@ lldb
 llvm
 luajit-devel
 lzip
+mediainfo
 mod_ssl
 openssl
 pastebinit
