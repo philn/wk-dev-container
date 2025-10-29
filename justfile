@@ -1,10 +1,10 @@
 
-tag := "wk-dev:f42"
+tag := "wk-dev:f43"
 default_registry := "ghcr.io/philn"
 default_archive := "wk-dev-container.tar"
 
 build git_hash=`git describe --always`:
-  podman pull registry.fedoraproject.org/fedora-toolbox:42
+  podman pull registry.fedoraproject.org/fedora-toolbox:43
   podman build --squash-all -t {{tag}} --security-opt seccomp=unconfined --build-arg=GIT_HASH={{git_hash}} .
 
 push registry=default_registry:
