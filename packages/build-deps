@@ -67,9 +67,6 @@ perl-autouse
 perl-bignum
 perl-version
 python3-gobject
-qt6-qtbase-devel
-qt6-qtbase-private-devel
-qt6-qtquick3d-devel
 ruby
 rubygem-highline
 rubygem-json
