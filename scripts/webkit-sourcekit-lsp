@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+import os
+import sys
+import subprocess
+
+WEBKIT_HOME = os.environ['WEBKIT_HOME']
+
+from webkit_cli import OptionParser
+
+def main(argv):
+    parser = OptionParser()
+    options, args = parser.parse_known_args(argv)
+
+    outputdir = os.environ.get('WEBKIT_OUTPUTDIR', os.path.join(WEBKIT_HOME, 'WebKitBuild'))
+    webkit_outputdir = os.path.join(outputdir, options.platform.upper(), options.configuration)
+    lsp_args = ['sourcekit-lsp']
+    if options.configuration == "Release":
+        lsp_args.extend(['--configuration', 'release'])
+    else:
+        lsp_args.extend(['--configuration', 'debug'])
+
+    lsp_args.extend(["--compilation-db-search-path", webkit_outputdir])
+    lsp_args.extend(args[1:])
+    return subprocess.call(lsp_args)
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

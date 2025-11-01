@@ -76,6 +76,7 @@ rubygem-json
 rubygem-webrick
 sqlite-devel
 systemd-devel
+swift-lang
 unifdef
 wayland-devel
 wayland-protocols-devel
