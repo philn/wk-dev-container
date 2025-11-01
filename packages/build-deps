@@ -17,7 +17,6 @@ gcc-c++
 gi-docgen
 gobject-introspection-devel
 gperf
-gtk3-devel
 gtk4-devel
 hyphen-devel
 intltool
