@@ -109,6 +109,7 @@ RUN git clone -b 1.26 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
        -Dgst-plugins-bad:voaacenc=disabled \
        -Dgst-plugins-bad:wasapi2=disabled \
        -Dgst-plugins-bad:wasapi=disabled \
+       -Dgst-plugins-bad:wildmidi=disabled \
        -Dgst-plugins-bad:wpe=disabled \
        -Dgst-plugins-bad:x11=disabled \
        -Dgst-plugins-bad:zxing=disabled \
