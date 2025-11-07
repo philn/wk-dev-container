@@ -38,11 +38,21 @@ def main(args):
                     modified_line = line.replace(filename_func.encode(), f'{filename_func}{gst_identifier}'.encode())
                     lines_subset[i] = modified_line
 
+        # Replace path/to/foo.cpp with foo.cpp in each line.
+        final_lines = []
+        for line in lines_subset:
+            escaped = re.sub(b' +', b' ', strip_escape(line))
+            tokens = escaped.split(b' ')
+
+            path = tokens[5].split(b':')[0]
+            filename = path.split(b'/')[-1]
+            final_lines.append(line.replace(path, filename))
+
     filename = os.path.basename(log_file)
     dirname = os.path.dirname(log_file)
     new_log_file = os.path.join(dirname, f'new-{filename}')
     with open(new_log_file, 'w') as f:
-        f.writelines([line.decode() for line in lines_subset])
+        f.writelines([line.decode() for line in final_lines])
     print(f'{log_file} rewritten as {new_log_file}')
     return 0
 
