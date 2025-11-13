@@ -181,7 +181,7 @@ RUN /scripts/prepare-sccache.sh
 RUN /scripts/install-build-webkit.sh
 RUN /scripts/install-launchers.sh
 
-ARG CLANGD_TOOLS_VERSION=21.1.0
+ARG CLANGD_TOOLS_VERSION=snapshot_20251109
 RUN wget https://github.com/clangd/clangd/releases/download/$CLANGD_TOOLS_VERSION/clangd_indexing_tools-linux-$CLANGD_TOOLS_VERSION.zip && \
     unzip clangd_indexing_tools-linux-$CLANGD_TOOLS_VERSION.zip && \
     mkdir -p /usr/local/clangd-indexer && \
