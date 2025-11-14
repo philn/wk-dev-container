@@ -23,13 +23,13 @@ RUN dnf copr enable -y philn/wpewebkit
 # Remove useless vlc stuff
 RUN dnf -y remove vlc-libs
 
+COPY scripts/ /scripts/
+
 COPY packages/ /packages/
 RUN dnf -y install $(<packages/build-deps)
 RUN dnf -y install $(<packages/multimedia-deps)
 RUN dnf -y install $(<packages/tools)
-
-RUN dnf -y remove mesa-va-drivers
-RUN dnf -y install mesa-va-drivers-freeworld
+RUN /scripts/x86-setup.sh
 
 RUN pip install meson
 
@@ -154,8 +154,6 @@ RUN pip install pandas plotly kaleido
 RUN git clone https://github.com/webkitgtk/webkitgtk-test-dicts && \
     make -C webkitgtk-test-dicts DESTDIR=/usr/share install && \
     rm -fr webkitgtk-test-dicts
-
-COPY scripts/ /scripts/
 
 RUN /scripts/write-release-infos.sh
 
