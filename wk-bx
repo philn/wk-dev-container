@@ -6,11 +6,13 @@ import argparse
 import subprocess
 import tomllib as toml
 import tempfile
+import platform
 
 DEFAULT_SCCACHE_SCHEDULER='https://sccache.igalia.com'
 
 CONTAINER_PATH="localhost"
-IMAGE_NAME="wk-dev-f"
+IMAGE_NAME="wk-dev-"
+VERSION_PREFIX="f"
 CONTAINER_VERSION=43
 
 def run(*args, in_container=None, dry_run=False, capture_output=True, verbose=False):
@@ -68,8 +70,9 @@ def update(namespace):
 def main(args):
     parser = argparse.ArgumentParser(prog="wk-bx", add_help=True)
     general = parser.add_argument_group("General")
-    general.add_argument("-n", "--name", dest="name", default=f"{IMAGE_NAME}{CONTAINER_VERSION}",
-                         help=f"Toolbox name (default: {IMAGE_NAME}{CONTAINER_VERSION})")
+    arch = platform.machine()
+    general.add_argument("-n", "--name", dest="name", default=f"{IMAGE_NAME}{arch}{VERSION_PREFIX}{CONTAINER_VERSION}",
+                         help=f"Toolbox name (default: {IMAGE_NAME}{arch}{VERSION_PREFIX}{CONTAINER_VERSION})")
     general.add_argument("-v", "--version", dest="version", default=CONTAINER_VERSION,
                          help=f"Container version (default: {CONTAINER_VERSION})")
     general.add_argument("-i", "--image", dest="image", default=CONTAINER_PATH,

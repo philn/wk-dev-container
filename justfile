@@ -1,5 +1,6 @@
 
-tag := "wk-dev:f43"
+arch := `uname -m`
+tag := "wk-dev-" + arch + ":f43"
 default_registry := "ghcr.io/philn"
 default_archive := "wk-dev-container.tar"
 
