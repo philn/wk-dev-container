@@ -41,18 +41,12 @@ RUN git config --global user.email "philn@igalia.com"
 RUN git config --global user.name "Philippe Normand"
 
 # Rust required for gst-ptp-helper and dots-viewer.
-ARG RUSTUP_VERSION=1.28.2
 ARG RUST_VERSION=1.91.0
-ARG RUST_ARCH="x86_64-unknown-linux-gnu"
-ARG RUSTUP_URL=https://static.rust-lang.org/rustup/archive/$RUSTUP_VERSION/$RUST_ARCH/rustup-init
-RUN wget $RUSTUP_URL && \
-    chmod +x rustup-init && \
-    ./rustup-init -y --no-modify-path --profile minimal --default-toolchain $RUST_VERSION --component rust-src && \
-    rm rustup-init && \
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --profile minimal --default-toolchain $RUST_VERSION --component rust-src && \
     source "$CARGO_HOME/env"
 
 ARG RUST_ANALYZER_VERSION=2025-11-10
-RUN curl -L https://github.com/rust-lang/rust-analyzer/releases/download/$RUST_ANALYZER_VERSION/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > /usr/local/bin/rust-analyzer && \
+RUN curl -L https://github.com/rust-lang/rust-analyzer/releases/download/$RUST_ANALYZER_VERSION/rust-analyzer-$(rustc -vV | awk '/^host/ { print $2 }').gz | gunzip -c - > /usr/local/bin/rust-analyzer && \
     chmod +x /usr/local/bin/rust-analyzer
 
 RUN cargo install cargo-c
