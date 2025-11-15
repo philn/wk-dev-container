@@ -11,7 +11,7 @@ import platform
 DEFAULT_SCCACHE_SCHEDULER='https://sccache.igalia.com'
 
 CONTAINER_PATH="localhost"
-IMAGE_NAME="wk-dev-"
+IMAGE_NAME="wk-dev"
 VERSION_PREFIX="f"
 CONTAINER_VERSION=43
 
@@ -55,7 +55,8 @@ def update(namespace):
     run('distrobox', 'rm', '-f', namespace.name, verbose=verbose)
     if not namespace.image.startswith('localhost'):
         run('podman', 'image', 'prune', '-a', '-f', verbose=verbose)
-    run('distrobox', 'create', '-Y', '-n', namespace.name, '--image', f'{namespace.image}/wk-dev:f{namespace.version}', capture_output=False, verbose=verbose)
+    arch = platform.machine()
+    run('distrobox', 'create', '-Y', '-n', namespace.name, '--image', f'{namespace.image}/wk-dev-{arch}:f{namespace.version}', capture_output=False, verbose=verbose)
     if sccache_credentials.get('auth-token'):
         template = run('cat', '/sccache/sccache.toml.in', in_container=namespace.name)
         with tempfile.NamedTemporaryFile() as tmpfile:
@@ -70,9 +71,8 @@ def update(namespace):
 def main(args):
     parser = argparse.ArgumentParser(prog="wk-bx", add_help=True)
     general = parser.add_argument_group("General")
-    arch = platform.machine()
-    general.add_argument("-n", "--name", dest="name", default=f"{IMAGE_NAME}{arch}{VERSION_PREFIX}{CONTAINER_VERSION}",
-                         help=f"Toolbox name (default: {IMAGE_NAME}{arch}{VERSION_PREFIX}{CONTAINER_VERSION})")
+    general.add_argument("-n", "--name", dest="name", default=f"{IMAGE_NAME}-{VERSION_PREFIX}{CONTAINER_VERSION}",
+                         help=f"Toolbox name (default: {IMAGE_NAME}-{VERSION_PREFIX}{CONTAINER_VERSION})")
     general.add_argument("-v", "--version", dest="version", default=CONTAINER_VERSION,
                          help=f"Container version (default: {CONTAINER_VERSION})")
     general.add_argument("-i", "--image", dest="image", default=CONTAINER_PATH,
