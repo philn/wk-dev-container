@@ -130,13 +130,6 @@ RUN git clone http://github.com/project-spiel/libspiel && \
     meson install -C _build && \
     rm -fr _build libspiel
 
-# 1.16 missing this patch: https://github.com/Igalia/WPEBackend-fdo/pull/202
-RUN git clone http://github.com/igalia/wpebackend-fdo && \
-    meson setup --prefix=/usr -Dbuild_docs=false _build wpebackend-fdo && \
-    meson compile -C _build && \
-    meson install -C _build && \
-    rm -fr _build wpebackend-fdo
-
 RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
     meson setup --prefix=/usr -Dsample-player=disabled _build sparkle-cdm && \
     meson compile -C _build && \
