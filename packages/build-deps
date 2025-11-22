@@ -8,7 +8,7 @@ capnproto
 capnproto-devel
 clang
 cmake
-enchant-devel
+enchant2-devel
 expat-devel
 flex
 g++
