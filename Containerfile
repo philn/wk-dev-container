@@ -40,14 +40,6 @@ RUN dnf -y builddep gstreamer1-plugins-bad-free
 RUN git config --global user.email "philn@igalia.com"
 RUN git config --global user.name "Philippe Normand"
 
-# https://github.com/ninja-build/ninja/issues/2555
-RUN git clone -b osc-con-emu https://github.com/philn/ninja && \
-    pushd ninja && \
-    ./configure.py && \
-    ninja && mv ./ninja /usr/bin/ninja && \
-    popd && \
-    rm -fr ninja
-
 # Rust required for gst-ptp-helper and dots-viewer.
 ARG RUST_VERSION=1.91.0
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --profile minimal --default-toolchain $RUST_VERSION --component rust-src && \
