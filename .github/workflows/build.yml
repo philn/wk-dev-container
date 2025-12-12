@@ -85,3 +85,45 @@ jobs:
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io --username=${GITHUB_REPOSITORY_OWNER} --password-stdin
           just push ghcr.io/${GITHUB_REPOSITORY_OWNER}
+  deploy:
+    runs-on: ubuntu-24.04
+    permissions: write-all
+    needs: [build, build-arm]
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          # this might remove tools that are actually needed,
+          # if set to "true" but frees about 6 GB
+          tool-cache: false
+
+          # all of these default to true, but feel free to set to
+          # "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update && sudo apt-get -y install fuse-overlayfs podman
+
+      - name: Install Just
+        uses: extractions/setup-just@v2
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Login to registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io --username=${GITHUB_REPOSITORY_OWNER} --password-stdin
+
+      - name: Pull arch-specific images to local storage
+        run: |
+          just pull-images
+
+      - name: Create multi-arch manifest from local storage
+        run: |
+          just bundle-images
