@@ -6,7 +6,6 @@ import argparse
 import subprocess
 import tomllib as toml
 import tempfile
-import platform
 
 DEFAULT_SCCACHE_SCHEDULER='https://sccache.igalia.com'
 
@@ -55,8 +54,7 @@ def update(namespace):
     run('distrobox', 'rm', '-f', namespace.name, verbose=verbose)
     if not namespace.image.startswith('localhost'):
         run('podman', 'image', 'prune', '-a', '-f', verbose=verbose)
-    arch = platform.machine()
-    run('distrobox', 'create', '-Y', '-n', namespace.name, '--image', f'{namespace.image}/wk-dev-{arch}:f{namespace.version}', capture_output=False, verbose=verbose)
+    run('distrobox', 'create', '-Y', '-n', namespace.name, '--image', f'{namespace.image}/wk-dev:f{namespace.version}', capture_output=False, verbose=verbose)
     if sccache_credentials.get('auth-token'):
         template = run('cat', '/sccache/sccache.toml.in', in_container=namespace.name)
         with tempfile.NamedTemporaryFile() as tmpfile:
