@@ -41,7 +41,7 @@ RUN git config --global user.email "philn@igalia.com"
 RUN git config --global user.name "Philippe Normand"
 
 # Rust required for gst-ptp-helper and dots-viewer.
-ARG RUST_VERSION=1.91.0
+ARG RUST_VERSION=1.92.0
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --profile minimal --default-toolchain $RUST_VERSION --component rust-src && \
     source "$CARGO_HOME/env"
 
