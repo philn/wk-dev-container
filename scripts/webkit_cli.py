@@ -42,13 +42,9 @@ class OptionParser:
     def print_help(self):
         self.option_parser.print_help()
 
-def runtime_environment():
-    if not os.environ.get('WEBKIT_SDK_LOCAL_DEPS'):
-        return os.environ.copy()
-
-    build_dir = os.path.join(WEBKIT_HOME, 'WebKitBuild', 'deps-build')
-    if not os.path.isdir(build_dir):
-        return os.environ.copy()
+def meson_project_env(build_dir, base_env):
+    if not os.path.exists(os.path.join(build_dir, 'build.ninja')):
+        return base_env
 
     command = ['meson', 'devenv', '-C', build_dir, '--dump']
     proc = subprocess.run(command, capture_output=True, text=True)
@@ -57,7 +53,7 @@ def runtime_environment():
         raise Exception(proc.returncode)
     local_env = proc.stdout.strip()
 
-    env = os.environ.copy()
+    env = base_env.copy()
     for line in [line for line in local_env.splitlines() if not line.startswith("export")]:
         tokens = shlex.split(line)[0].split("=")
         var_name, contents = tokens[0], "=".join(tokens[1:])
@@ -65,4 +61,21 @@ def runtime_environment():
             env[var_name] = contents
         elif var_name.endswith('PATH'):
             env[var_name] = f"{env[var_name]}:{contents}"
+    return env
+
+def runtime_environment():
+    if not os.environ.get('WEBKIT_SDK_LOCAL_DEPS'):
+        return os.environ.copy()
+
+    base_build_dir = os.path.join(WEBKIT_HOME, 'WebKitBuild', 'deps-build')
+    if not os.path.isdir(base_build_dir):
+        return os.environ.copy()
+
+    projects = os.environ['WEBKIT_SDK_LOCAL_DEPS'].split(',')
+    env = os.environ.copy()
+    for project in projects:
+        name = os.path.basename(project).replace('-', '_')
+        build_dir = os.path.join(base_build_dir, name)
+        env = meson_project_env(build_dir, env)
+
     return env

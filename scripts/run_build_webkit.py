@@ -34,7 +34,7 @@ sys.path.insert(0, os.path.join(SOURCE_DIRECTORY, 'Tools', 'Scripts'))
 from webkitpy.common.system.executive import Executive
 from webkitcorepy.string_utils import elapsed
 
-from webkit_cli import OptionParser, runtime_environment
+from webkit_cli import OptionParser, runtime_environment, meson_project_env
 
 _log = logging.getLogger(__name__)
 
@@ -186,18 +186,25 @@ class Builder:
         return 'WEBKIT_SDK_LOCAL_DEPS' in os.environ.keys()
 
     def _buildLocalDeps(self):
-        src_dir = os.path.join(SOURCE_DIRECTORY, 'local-projects')
-        build_dir = os.path.join(SOURCE_DIRECTORY, 'WebKitBuild', 'deps-build')
+        projects = os.environ['WEBKIT_SDK_LOCAL_DEPS'].split(',')
+        base_build_dir = os.path.join(SOURCE_DIRECTORY, 'WebKitBuild', 'deps-build')
+        env = os.environ.copy()
+        for project in projects:
+            src_dir = os.path.expanduser(project)
+            name = os.path.basename(project).replace('-', '_')
+            options = shlex.split(os.environ.get(f'WEBKIT_SDK_LOCAL_{name.upper()}_OPTIONS'))
+            build_dir = os.path.join(base_build_dir, name)
+            self._buildLocalMesonProject(src_dir, build_dir, options, env)
+            env = meson_project_env(build_dir, env)
+
+    def _buildLocalMesonProject(self, src_dir, build_dir, options, env):
         if not os.path.exists(os.path.join(build_dir, 'build.ninja')):
-            projects = '-Dsubprojects=%s' % os.environ['WEBKIT_SDK_LOCAL_DEPS']
-            options = shlex.split(os.environ.get('WEBKIT_SDK_LOCAL_DEPS_OPTIONS', ''))
             # Meson doesn't enable sccache support if some CC/CXX env var is found... WTF.
-            env = os.environ.copy()
             if 'CC' in env:
                 del env['CC']
             if 'CXX' in env:
                 del env['CXX']
-            args = ['meson', 'setup', projects] + options + [src_dir, build_dir]
+            args = ['meson', 'setup'] + options + [src_dir, build_dir]
             self.execute(args, check=True, env=env)
 
         compile_command = ['meson', 'compile', '-C', build_dir]
@@ -205,7 +212,6 @@ class Builder:
         if numberOfCPUs:
             compile_command.extend(["-j", str(numberOfCPUs)])
 
-        env = os.environ
         env.update({'RUSTC_WRAPPER': '/usr/local/cargo/bin/sccache'})
         self.execute(compile_command, check=True, env=env)
 
