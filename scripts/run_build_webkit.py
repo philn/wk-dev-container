@@ -199,11 +199,6 @@ class Builder:
 
     def _buildLocalMesonProject(self, src_dir, build_dir, options, env):
         if not os.path.exists(os.path.join(build_dir, 'build.ninja')):
-            # Meson doesn't enable sccache support if some CC/CXX env var is found... WTF.
-            if 'CC' in env:
-                del env['CC']
-            if 'CXX' in env:
-                del env['CXX']
             args = ['meson', 'setup'] + options + [src_dir, build_dir]
             self.execute(args, check=True, env=env)
 
@@ -212,7 +207,6 @@ class Builder:
         if numberOfCPUs:
             compile_command.extend(["-j", str(numberOfCPUs)])
 
-        env.update({'RUSTC_WRAPPER': '/usr/local/cargo/bin/sccache'})
         self.execute(compile_command, check=True, env=env)
 
     def _cmakeArgFromOption(self, name, value):
