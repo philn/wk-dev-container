@@ -158,7 +158,7 @@ RUN /scripts/install-gst-plugins-rs.sh audiofx 0.15.0
 RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.15.0
 RUN /scripts/install-gst-plugins-rs.sh rtp 0.15.0
 RUN /scripts/install-gst-plugins-rs.sh dav1d 0.15.0
-RUN /scripts/install-gst-plugins-rs.sh fmp4 0.15.0
+RUN /scripts/install-gst-plugins-rs.sh isobmff 0.15.0
 RUN /scripts/install-gst-plugins-rs.sh tracers 0.15.0
 
 RUN cargo install sccache@0.13.0
