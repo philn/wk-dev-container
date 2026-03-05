@@ -115,6 +115,9 @@ RUN git clone -b 1.28 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
     meson install -C _build && \
     rm -fr _build gstreamer
 
+# This is from the host GStreamer version and conflicts with 1.28's.
+RUN rm -f /usr/lib64/gstreamer-1.0/libgsty4menc.so
+
 RUN git clone https://github.com/rr-debugger/rr && \
     cmake -GNinja -B rr-build -S rr -DCMAKE_INSTALL_PREFIX=/usr -Ddisable32bit=ON -DBUILD_TESTS=OFF && \
     ninja -C rr-build install && \
