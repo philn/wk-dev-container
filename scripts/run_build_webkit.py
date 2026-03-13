@@ -192,7 +192,8 @@ class Builder:
         for project in projects:
             src_dir = os.path.expanduser(project)
             name = os.path.basename(project).replace('-', '_')
-            options = shlex.split(os.environ[f'WEBKIT_SDK_LOCAL_{name.upper()}_OPTIONS'])
+            project_options = os.environ.get(f'WEBKIT_SDK_LOCAL_{name.upper()}_OPTIONS', '')
+            options = shlex.split(project_options)
             build_dir = os.path.join(base_build_dir, name)
             self._buildLocalMesonProject(src_dir, build_dir, options, env)
             env = meson_project_env(build_dir, env)
