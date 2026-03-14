@@ -1,4 +1,3 @@
-ffmpeg-devel
 flite-devel
 gstreamer1-devel
 gstreamer1-plugin-libav
@@ -10,7 +9,6 @@ gstreamer1-plugins-good-extras
 gstreamer1-plugins-ugly
 gstreamer1-plugins-ugly-free
 libaom-devel
-libavcodec-freeworld
 libdav1d-devel
 libkate-devel
 libsrtp-devel

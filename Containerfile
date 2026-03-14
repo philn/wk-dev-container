@@ -32,6 +32,9 @@ RUN dnf -y install $(<packages/multimedia-deps)
 RUN dnf -y install $(<packages/tools)
 RUN /scripts/x86-setup.sh
 
+RUN dnf -y swap ffmpeg-free ffmpeg --allowerasing
+RUN dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
+
 RUN pip install meson
 
 RUN ln -s /usr/bin/flatpak-xdg-open /usr/bin/xdg-open
