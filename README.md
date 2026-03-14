@@ -19,9 +19,9 @@ IDE runs in flatpak you can wrap it in another script like this (YMMV):
 ```sh
 #!/bin/sh
 set -eu
-flatpak-spawn --host podman start wk-dev-f43
+flatpak-spawn --host podman start wk-dev-f44
 exec flatpak-spawn --host podman exec -e WEBKIT_HOME=$HOME/WebKit -i -u phil \
-     wk-dev-f43 webkit-clangd --enable-config --gtk "$@"
+     wk-dev-f44 webkit-clangd --enable-config --gtk "$@"
 ```
 
 Or, for IDEs not running in flatpak:
@@ -29,9 +29,9 @@ Or, for IDEs not running in flatpak:
 ```sh
 #!/bin/sh
 set -eu
-podman start wk-dev-f43
+podman start wk-dev-f44
 exec podman exec -e WEBKIT_HOME=$HOME/WebKit -i -u phil \
-     wk-dev-f43 webkit-clangd --enable-config --gtk "$@"
+     wk-dev-f44 webkit-clangd --enable-config --gtk "$@"
 ```
 
 A similar approach can be used for setting up rust-analyzer:
@@ -39,8 +39,8 @@ A similar approach can be used for setting up rust-analyzer:
 ```sh
 #!/bin/sh
 set -eu
-podman start wk-dev-f43
-exec podman exec -i -u phil wk-dev-f43 /usr/local/bin/rust-analyzer "$@"
+podman start wk-dev-f44
+exec podman exec -i -u phil wk-dev-f44 /usr/local/bin/rust-analyzer "$@"
 ```
 
 # Local build of the container
@@ -48,7 +48,7 @@ exec podman exec -i -u phil wk-dev-f43 /usr/local/bin/rust-analyzer "$@"
 If you prefer to build the container yourself:
 
 ```sh
-$ podman build -t wk-dev:f43 .
+$ podman build -t wk-dev:f44 .
 $ ./wk-bx -u
 ```
 
@@ -58,7 +58,7 @@ $ ./wk-bx -u
 `WEBKIT_HOME` should point to your WebKit checkout. Can be set in a `.envrc` there for instance.
 
 ```sh
-toolbox enter -c wk-dev-f43
+toolbox enter -c wk-dev-f44
 export WEBKIT_HOME=$HOME/WebKit
 cd $WEBKIT_HOME
 b-webkit --wpe
