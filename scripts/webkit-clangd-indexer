@@ -1,12 +1,9 @@
 #!/bin/sh
-set -xeu
-
-#export WEBKIT_HOME=$HOME/WebKit
 
 . /etc/webkit/common-local.sh
 unset WEBKIT_SDK_LOCAL_DEPS
 
-export WEBKIT_BUILDDIR=$WEBKIT_HOME/WebKitBuild/clang-index-$PORT_LOWER
+export WEBKIT_BUILDDIR=$WEBKIT_HOME/WebKitBuild/clang-index/$PORT_LOWER
 rm -fr $WEBKIT_BUILDDIR
 
 cd $WEBKIT_HOME
