@@ -12,6 +12,7 @@ ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/host/run/dbus/system_bus_socket
 ENV WEBKIT_ENABLE_DEBUG_PERMISSIONS_IN_SANDBOX=1
 ENV WEBKIT_BUILD_USE_SYSTEM_LIBRARIES=1
 ENV WEBKIT_CONTAINER_SDK=0
+ENV WEBKIT_CONTAINER_SDK_INSIDE_MOUNT_NAMESPACE=1
 
 # Add rpm fusion repositories in order to access all of the gst plugins
 RUN dnf install -y \
