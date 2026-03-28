@@ -16,6 +16,7 @@ libtheora-devel
 libv4l-devel
 libvorbis-devel
 libvpx-devel
+mesa-dri-drivers
 nasm
 opus-devel
 pipewire-gstreamer
