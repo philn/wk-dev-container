@@ -6,6 +6,7 @@ cairo-devel
 cairo-gobject-devel
 capnproto
 capnproto-devel
+ccache
 clang
 cmake
 enchant2-devel
