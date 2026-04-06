@@ -37,6 +37,7 @@ python-pip
 python3-devel
 python3-psutil
 strace
+stress-ng
 sysprof-cli
 sysstat
 valgrind
