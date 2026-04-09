@@ -65,6 +65,7 @@ RUN git clone https://github.com/ystreet/librice.git && \
 RUN git clone -b 1.28 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
     git -C gstreamer checkout 1.28.2 && \
     meson setup --prefix=/usr \
+       --force-fallback-for=openh264 \
        -Dpackage-origin=wk-dev-container \
        -Ddoc=disabled \
        -Dtests=disabled \
