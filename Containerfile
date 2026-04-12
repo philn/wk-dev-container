@@ -119,7 +119,8 @@ RUN git clone -b 1.28 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
      _build gstreamer/ && \
     meson compile -C _build && \
     meson install -C _build && \
-    rm -fr _build gstreamer
+    rm -fr _build gstreamer /usr/lib64/libgst{adaptivedemux,analytics,basecamerabinsrc,cuda,dxva,hip,insertbin,mse,photography,play,rtsp,transcoder,uridownloader,validate,wayland}* && \
+    rm -fr /usr/lib64/gstreamer-1.0/validate /usr/lib64/gstreamer-1.0/libgst{hls,waylandsink,camerabin,uvch264,smoothstreaming,nvcodec,mse,dash,rtsp,analyticsoverlay,hip,gtkwayland,inserbin,tensordecoders}.so
 
 # This is from the host GStreamer version and conflicts with 1.28's.
 RUN rm -f /usr/lib64/gstreamer-1.0/libgsty4menc.so
