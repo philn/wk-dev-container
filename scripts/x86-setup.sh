@@ -5,4 +5,4 @@ if [[ "$ARCH" != "x86_64" ]]; then
     exit 0
 fi
 
-dnf -y install libva-intel-driver mesa-va-drivers-freeworld
+dnf -y install libva-intel-driver
