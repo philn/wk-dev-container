@@ -57,7 +57,7 @@ RUN cargo install cargo-c
 
 RUN git clone https://github.com/ystreet/librice.git && \
     pushd librice && \
-    git checkout v0.3.0 && \
+    git checkout v0.4.2 && \
     cargo cinstall -p rice-proto --release --prefix=/usr --libdir=/usr/lib64 --library-type=cdylib && \
     cargo cinstall -p rice-io --release --prefix=/usr --libdir=/usr/lib64 --library-type=cdylib && \
     popd && \
