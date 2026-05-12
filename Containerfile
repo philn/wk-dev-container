@@ -26,8 +26,6 @@ RUN dnf copr enable -y philn/wpewebkit
 # Remove useless vlc stuff
 RUN dnf -y remove vlc-libs
 
-COPY patches/ /patches/
-
 COPY scripts/ /scripts/
 
 COPY packages/ /packages/
@@ -66,8 +64,7 @@ RUN git clone https://github.com/ystreet/librice.git && \
 
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.28 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.28.2 && \
-    git -C gstreamer am /patches/0001-videodmabufpool-Break-ref-cycle-between-the-pool-and.patch && \
+    git -C gstreamer checkout 1.28.3 && \
     meson setup --prefix=/usr \
        --force-fallback-for=openh264 \
        -Dpackage-origin=wk-dev-container \
