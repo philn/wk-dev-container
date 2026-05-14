@@ -14,6 +14,7 @@ graphviz
 gstreamer1-plugins-base-tools
 heaptrack
 hotspot
+htop
 httpd
 inotify-tools
 iwyu
