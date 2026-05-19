@@ -50,6 +50,7 @@ def meson_project_env(build_dir, base_env):
     proc = subprocess.run(command, capture_output=True, text=True)
     if proc.returncode != 0:
         print(proc.stderr)
+        print(proc.stdout)
         raise Exception(proc.returncode)
     local_env = proc.stdout.strip()
 
