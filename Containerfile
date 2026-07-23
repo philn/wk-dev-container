@@ -59,7 +59,7 @@ RUN cargo install cargo-c
 
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.28 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
-    git -C gstreamer checkout 1.28.4 && \
+    git -C gstreamer checkout 1.28.5 && \
     meson setup --prefix=/usr \
        --force-fallback-for=openh264 \
        -Dpackage-origin=wk-dev-container \
@@ -159,10 +159,10 @@ RUN cargo install flamegraph
 RUN cargo install --locked samply
 
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.15.2
-RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.15.2
+RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.15.3
 RUN /scripts/install-gst-plugins-rs.sh dav1d 0.15.0
-RUN /scripts/install-gst-plugins-rs.sh isobmff 0.15.2
-RUN /scripts/install-gst-plugins-rs.sh tracers 0.15.2
+RUN /scripts/install-gst-plugins-rs.sh isobmff 0.15.3
+RUN /scripts/install-gst-plugins-rs.sh tracers 0.15.3
 
 RUN cargo install sccache@0.15.0
 RUN /scripts/prepare-sccache.sh
