@@ -54,14 +54,6 @@ RUN curl -L https://github.com/rust-lang/rust-analyzer/releases/download/$RUST_A
 
 RUN cargo install cargo-c
 
-RUN git clone https://github.com/ystreet/librice.git && \
-    pushd librice && \
-    git checkout v0.4.3 && \
-    cargo cinstall -p rice-proto --release --prefix=/usr --libdir=/usr/lib64 --library-type=cdylib && \
-    cargo cinstall -p rice-io --release --prefix=/usr --libdir=/usr/lib64 --library-type=cdylib && \
-    popd && \
-    rm -fr librice
-
 # NOTE: gupnp is disabled in libnice, triggers critical warnings and leaks.
 RUN git clone -b 1.28 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
     git -C gstreamer checkout 1.28.4 && \
@@ -108,6 +100,7 @@ RUN git clone -b 1.28 https://gitlab.freedesktop.org/gstreamer/gstreamer && \
        -Dgst-plugins-bad:voaacenc=disabled \
        -Dgst-plugins-bad:wasapi2=disabled \
        -Dgst-plugins-bad:wasapi=disabled \
+       -Dgst-plugins-bad:webrtc=disabled \
        -Dgst-plugins-bad:wildmidi=disabled \
        -Dgst-plugins-bad:wpe=disabled \
        -Dgst-plugins-bad:x11=disabled \
@@ -164,7 +157,6 @@ RUN cargo install --locked samply
 
 RUN /scripts/install-gst-plugins-rs.sh audiofx 0.15.2
 RUN /scripts/install-gst-plugins-rs.sh closedcaption 0.15.2
-RUN /scripts/install-gst-plugins-rs.sh rtp 0.15.2
 RUN /scripts/install-gst-plugins-rs.sh dav1d 0.15.0
 RUN /scripts/install-gst-plugins-rs.sh isobmff 0.15.2
 RUN /scripts/install-gst-plugins-rs.sh tracers 0.15.2
