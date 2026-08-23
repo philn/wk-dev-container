@@ -135,7 +135,7 @@ RUN git clone http://github.com/project-spiel/libspiel && \
     rm -fr _build libspiel
 
 RUN git clone http://github.com/Sparkle-CDM/sparkle-cdm && \
-    git -C sparkle-cdm checkout 2026.1 && \
+    git -C sparkle-cdm checkout 2026.2 && \
     meson setup --prefix=/usr -Dsample-player=disabled _build sparkle-cdm && \
     meson compile -C _build && \
     meson install -C _build && \
