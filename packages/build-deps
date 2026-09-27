@@ -24,6 +24,7 @@ intltool
 json-glib-devel
 lcms2-devel
 libXt-devel
+libadwaita-devel
 libatomic
 libavif-devel
 libepoxy-devel
