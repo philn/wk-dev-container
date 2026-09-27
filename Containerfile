@@ -51,7 +51,7 @@ ARG RUST_VERSION=1.98.1
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --profile minimal --default-toolchain $RUST_VERSION --component rust-src && \
     source "$CARGO_HOME/env"
 
-ARG RUST_ANALYZER_VERSION=2026-04-27
+ARG RUST_ANALYZER_VERSION=2026-09-21
 RUN curl -L https://github.com/rust-lang/rust-analyzer/releases/download/$RUST_ANALYZER_VERSION/rust-analyzer-$(rustc -vV | awk '/^host/ { print $2 }').gz | gunzip -c - > /usr/local/bin/rust-analyzer && \
     chmod +x /usr/local/bin/rust-analyzer
 
