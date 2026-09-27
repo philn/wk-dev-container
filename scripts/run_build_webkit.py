@@ -177,10 +177,27 @@ class Builder:
             self._env = runtime_environment()
 
         try:
-            return self._buildCMakeProject()
-        finally:
-            if sccache_enabled:
-                self.execute(["sccache", "--stop-server"])
+            result = self._buildCMakeProject()
+        except:
+            result = -1
+
+        if result != -1 and self._cmakePortName() == 'WPE' and 'WEBKIT_POST_BUILD_PROJECTS' in os.environ.keys():
+            projects = os.environ['WEBKIT_POST_BUILD_PROJECTS'].split(',')
+            base_build_dir = os.path.join(SOURCE_DIRECTORY, 'WebKitBuild', 'deps-build')
+            env = os.environ.copy()
+            env['PKG_CONFIG_PATH'] = self._buildDir()
+            for project in projects:
+                src_dir = os.path.expanduser(project)
+                name = os.path.basename(project).replace('-', '_')
+                project_options = os.environ.get(f'WEBKIT_{name.upper()}_OPTIONS', '')
+                options = shlex.split(project_options)
+                build_dir = os.path.join(base_build_dir, name)
+                self._buildLocalMesonProject(src_dir, build_dir, options, env)
+
+        if sccache_enabled:
+            self.execute(["sccache", "--stop-server"])
+
+        return result
 
     def isLocalDepsBuild(self):
         return 'WEBKIT_SDK_LOCAL_DEPS' in os.environ.keys()
