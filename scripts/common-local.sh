@@ -27,10 +27,6 @@ shift $((OPTIND-1))
 [ "${1:-}" = "--" ] && shift
 
 EXTRA_ARGS=""
-if [ "$PORT_LOWER" == "wpe" ]
-then
-    EXTRA_ARGS="--set-permissions=all --cookie-jar=text:cog.cookies --webprocess-failure=exit-ok"
-fi
 
 if [ "$PORT_LOWER" == "gtk" ]
 then
