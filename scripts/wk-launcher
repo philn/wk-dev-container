@@ -16,12 +16,24 @@ def main(argv):
     target = os.path.basename(argv[0])
 
     base_outputdir = env.get('WEBKIT_OUTPUTDIR', os.path.join(WEBKIT_HOME, 'WebKitBuild'))
+    build_path = os.path.join(base_outputdir, options.platform.upper(), options.configuration)
     if target != 'test-webkitpy':
-        env['WEBKIT_OUTPUTDIR'] = os.path.join(base_outputdir, options.platform.upper(), options.configuration)
+        env['WEBKIT_OUTPUTDIR'] = build_path
 
-    argv[0] = os.path.join(WEBKIT_HOME, 'Tools', 'Scripts', target)
-    if not os.path.isfile(argv[0]):
-        argv[0] = os.path.join('/usr/local/bin', target)
+    target_path = None
+    if target == 'run-minibrowser' and options.platform == 'wpe':
+        target_path = os.path.join(WEBKIT_HOME, 'WebKitBuild', 'deps-build', 'wig', 'src', 'wig')
+        if os.path.isfile(target_path):
+            argv = args
+            env['WEBKIT_INJECTED_BUNDLE_PATH'] = os.path.join(build_path, 'lib')
+            env['WEBKIT_EXEC_PATH'] = os.path.join(build_path, 'bin')
+
+    if not target_path or not os.path.isfile(target_path):
+        target_path = os.path.join(WEBKIT_HOME, 'Tools', 'Scripts', target)
+    if not os.path.isfile(target_path):
+        target_path = os.path.join('/usr/local/bin', target)
+
+    argv[0] = target_path
 
     if target == 'run-webkit-tests':
         env['TZ'] = 'America/Los_Angeles'
