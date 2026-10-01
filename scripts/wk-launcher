@@ -27,6 +27,7 @@ def main(argv):
             argv = args
             env['WEBKIT_INJECTED_BUNDLE_PATH'] = os.path.join(build_path, 'lib')
             env['WEBKIT_EXEC_PATH'] = os.path.join(build_path, 'bin')
+            env['WEBKIT_INSPECTOR_RESOURCES_PATH'] = os.path.join(build_path, 'share')
 
     if not target_path or not os.path.isfile(target_path):
         target_path = os.path.join(WEBKIT_HOME, 'Tools', 'Scripts', target)
