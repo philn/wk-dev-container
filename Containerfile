@@ -32,6 +32,7 @@ RUN dnf -y install $(<packages/tools)
 RUN /scripts/x86-setup.sh
 
 RUN dnf -y swap 'ffmpeg-free' 'ffmpeg' --allowerasing
+RUN dnf list mesa-va-drivers-freeworld mesa-filesystem
 RUN dnf -y install mesa-va-drivers-freeworld
 
 RUN pip install meson
