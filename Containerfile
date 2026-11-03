@@ -20,9 +20,6 @@ RUN dnf install -y \
     "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
     "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 
-# libwpe/wpebackend-fdo are not packaged in Fedora anymore.
-RUN dnf copr enable -y philn/wpewebkit
-
 # Remove useless vlc stuff
 RUN dnf -y remove vlc-libs
 

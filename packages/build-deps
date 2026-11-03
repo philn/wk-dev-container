@@ -46,7 +46,6 @@ libsqlite3x-devel
 libtasn1-devel
 libuuid-devel
 libwebp-devel
-libwpe-devel
 libxkbcommon-x11-devel
 libxslt-devel
 make
@@ -79,6 +78,5 @@ unifdef
 wayland-devel
 wayland-protocols-devel
 woff2-devel
-wpebackend-fdo-devel
 xcb-util-cursor-devel
 xdg-dbus-proxy
